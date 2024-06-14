@@ -17,4 +17,9 @@ public class CourseRegistration {
     @ManyToOne
     @JoinColumn(name = "CourseOfferingId")
     private CourseOffering courseOffering;
+
+//    TODO: The database requirements has a "Sequence" column in table "CourseRegistration".
+//    @OrderColumn(name="Sequence")
+//    @Column(name="Sequence")
+//    int sequence;
 }
