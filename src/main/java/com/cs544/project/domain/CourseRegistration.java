@@ -7,7 +7,7 @@ import lombok.Data;
 @Entity
 public class CourseRegistration {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
@@ -18,7 +18,8 @@ public class CourseRegistration {
     @JoinColumn(name = "CourseOfferingId")
     private CourseOffering courseOffering;
 
-    @OrderColumn(name="Sequence")
-    @Column(name="Sequence")
-    int sequence;
+//    TODO: The database requirements has a "Sequence" column in table "CourseRegistration".
+//    @OrderColumn(name="Sequence")
+//    @Column(name="Sequence")
+//    int sequence;
 }
