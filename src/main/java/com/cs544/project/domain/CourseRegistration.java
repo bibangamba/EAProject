@@ -17,4 +17,8 @@ public class CourseRegistration {
     @ManyToOne
     @JoinColumn(name = "CourseOfferingId")
     private CourseOffering courseOffering;
+
+    @OrderColumn(name="Sequence")
+    @Column(name="Sequence")
+    int sequence;
 }

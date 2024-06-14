@@ -8,9 +8,12 @@ import lombok.Data;
 public class Location {
     @Id
     @GeneratedValue
+    @Column(name="ID")
     private int id;
 
+    @Column(name = "Capacity")
     private int capacity;
+    @Column(name="Name")
     private String name;
 
     @ManyToOne

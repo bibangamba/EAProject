@@ -14,9 +14,11 @@ public class CourseOffering {
 
     private int capacity;
     private float credits;
-    @Enumerated(EnumType.STRING)
-    private CourseOfferingType courseOfferingType;
     private String room;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="CourseOfferingType")
+    private CourseOfferingType courseOfferingType;
 
     @ManyToOne
     @JoinColumn(name = "FacultyID")
