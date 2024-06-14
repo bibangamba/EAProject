@@ -7,7 +7,7 @@ import lombok.Data;
 @Entity
 public class CourseRegistration {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne

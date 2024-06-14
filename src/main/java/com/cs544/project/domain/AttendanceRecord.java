@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 public class AttendanceRecord {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "ScanDateTime")
