@@ -7,7 +7,7 @@ import lombok.Data;
 @Entity
 public class LocationType {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String type;
