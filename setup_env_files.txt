@@ -4,7 +4,7 @@ Your folder structure should look like the following:
     src
     .env
     .gitignore
-    .pom.xml
+    pom.xml
 
 Add the following in env files or as according to your configuration
 
