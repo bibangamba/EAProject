@@ -6,6 +6,9 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
   jpa:
     hibernate:
       ddl-auto: create

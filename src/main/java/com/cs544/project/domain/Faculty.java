@@ -3,9 +3,11 @@ package com.cs544.project.domain;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -17,5 +19,7 @@ public class Faculty extends Person {
     @CollectionTable(name = "FacultyHobby")
     List<String> hobbies;
 
+
     private String salutation;
+
 }

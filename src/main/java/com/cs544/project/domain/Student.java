@@ -23,10 +23,8 @@ public class Student extends Person {
     @Column(name = "ApplicantID")
     private String applicantID;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "FacultyAdviserID")
     private Faculty faculty;
 
-    @OneToMany(mappedBy = "student")
-    private List<CourseRegistration> courseRegistrationList;
 }

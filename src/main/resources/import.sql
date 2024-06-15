@@ -36,22 +36,21 @@ INSERT INTO person (id, birthdate, created_on, updated_on, created_by, email_add
 
 -- Inserting data into faculty table
 INSERT INTO faculty (id, salutation) VALUES
-                                         (1, 'Dr.'),
-                                         (2, 'Prof.');
+                                         (6, 'Dr.'),
+                                         (7, 'Prof.');
 
 -- Inserting data into faculty_hobby table
 INSERT INTO faculty_hobby (faculty_id, hobbies) VALUES
-                                                    (1, 'Reading'),
-                                                    (2, 'Hiking');
+                                                    (6, 'Reading'),
+                                                    (7, 'Hiking');
 
 -- Inserting data into student table
 INSERT INTO student (id, entry, faculty_adviserid, alternateid, applicantid, studentid) VALUES
-                                                                                            (1, '2023-01-01', 1, 'ALT001', 'APP001', 'STU001'),
-                                                                                            (2, '2023-01-01', 2, 'ALT002', 'APP002', 'STU002'),
-                                                                                            (3, '2023-01-01', 1, 'ALT003', 'APP003', 'STU003'),
-                                                                                            (4, '2023-01-01', 2, 'ALT004', 'APP004', 'STU004'),
-                                                                                            (5, '2023-01-01', 1, 'ALT005', 'APP005', 'STU005'),
-                                                                                            (6, '2023-01-01', 2, 'ALT006', 'APP006', 'STU006');
+                                                                                            (1, '2023-01-01', 6, 'ALT001', 'APP001', 'STU001'),
+                                                                                            (2, '2023-01-01', 7, 'ALT002', 'APP002', 'STU002'),
+                                                                                            (3, '2023-01-01', 6, 'ALT003', 'APP003', 'STU003'),
+                                                                                            (4, '2023-01-01', 7, 'ALT004', 'APP004', 'STU004'),
+                                                                                            (5, '2023-01-01', 6, 'ALT005', 'APP005', 'STU005');
 
 -- Inserting data into course table
 INSERT INTO course (id, credits, created_on, updated_on, course_code, course_description, course_name, created_by, department, updated_by) VALUES
@@ -63,11 +62,11 @@ INSERT INTO course (id, credits, created_on, updated_on, course_code, course_des
 
 -- Inserting data into course_offering table
 INSERT INTO course_offering (id, capacity, courseid, credits, facultyid, created_on, updated_on, created_by, room, updated_by, course_offering_type) VALUES
-                                                                                                                                                         (1, 25, 1, 3.0, 1, NOW(), NOW(), 'admin', 'Room 101', 'admin', 'FULL_TIME'),
-                                                                                                                                                         (2, 20, 2, 4.0, 2, NOW(), NOW(), 'admin', 'Room 102', 'admin', 'PART_TIME'),
-                                                                                                                                                         (3, 15, 3, 3.5, 1, NOW(), NOW(), 'admin', 'Room 103', 'admin', 'FULL_TIME'),
-                                                                                                                                                         (4, 25, 4, 4.0, 2, NOW(), NOW(), 'admin', 'Room 104', 'admin', 'PART_TIME'),
-                                                                                                                                                         (5, 30, 5, 2.0, 1, NOW(), NOW(), 'admin', 'Room 105', 'admin', 'FULL_TIME');
+                                                                                                                                                         (1, 25, 1, 3.0, 6, NOW(), NOW(), 'admin', 'Room 101', 'admin', 'FULL_TIME'),
+                                                                                                                                                         (2, 20, 2, 4.0, 7, NOW(), NOW(), 'admin', 'Room 102', 'admin', 'PART_TIME'),
+                                                                                                                                                         (3, 15, 3, 3.5, 6, NOW(), NOW(), 'admin', 'Room 103', 'admin', 'FULL_TIME'),
+                                                                                                                                                         (4, 25, 4, 4.0, 7, NOW(), NOW(), 'admin', 'Room 104', 'admin', 'PART_TIME'),
+                                                                                                                                                         (5, 30, 5, 2.0, 6, NOW(), NOW(), 'admin', 'Room 105', 'admin', 'FULL_TIME');
 
 -- Inserting data into course_prerequisite table
 INSERT INTO course_prerequisite (course_id, prerequisite_id) VALUES
@@ -101,12 +100,7 @@ INSERT INTO course_registration (id, course_offering_id, student_id) VALUES
                                                                          (22, 2, 1),
                                                                          (23, 3, 2),
                                                                          (24, 4, 3),
-                                                                         (25, 5, 4),
-                                                                         (26, 1, 6),
-                                                                         (27, 2, 6),
-                                                                         (28, 3, 6),
-                                                                         (29, 4, 6),
-                                                                         (30, 5, 6);
+                                                                         (25, 5, 4);
 
 -- Inserting data into person_account table
 INSERT INTO person_account (id, password, username, role) VALUES
@@ -125,7 +119,6 @@ INSERT INTO attendance_record (id, location_id, student_id, scan_date_time) VALU
                                                                                 (3, 3, 3, NOW()),
                                                                                 (4, 1, 4, NOW()),
                                                                                 (5, 2, 5, NOW()),
-                                                                                (6, 3, 6, NOW()),
                                                                                 (7, 1, 2, NOW()),
                                                                                 (8, 2, 3, NOW()),
                                                                                 (9, 3, 4, NOW()),
