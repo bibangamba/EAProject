@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/cs544-project?useSSL=false&serverTimezone=UTC
     username: root
-    password: 123456
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -28,11 +28,11 @@ spring:
 #              packages: bank.integration.kafka.message, kafka.message
 logging:
   level:
-    root: ERROR
+    root: info
     org:
-      springframework: ERROR
+      springframework: info
 
-# app constants/values
 app:
   queues:
     tax-service: taxQueue
+
