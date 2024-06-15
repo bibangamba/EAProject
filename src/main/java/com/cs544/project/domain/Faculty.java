@@ -1,6 +1,7 @@
 package com.cs544.project.domain;
 
 import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -19,7 +20,7 @@ public class Faculty extends Person {
     @CollectionTable(name = "FacultyHobby")
     List<String> hobbies;
 
-
+    @Column(name="Salutation")
     private String salutation;
 
 }

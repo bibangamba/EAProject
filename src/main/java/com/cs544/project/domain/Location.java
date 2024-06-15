@@ -7,10 +7,13 @@ import lombok.Data;
 @Entity
 public class Location {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="ID")
     private int id;
 
+    @Column(name = "Capacity")
     private int capacity;
+    @Column(name="Name")
     private String name;
 
     @ManyToOne
