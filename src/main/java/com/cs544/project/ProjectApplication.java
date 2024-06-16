@@ -8,7 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-//@EnableJpaRepositories(basePackages = "com.cs544.project.repository")
+// @EnableJpaRepositories(basePackages = "com.cs544.project.repository")
 public class ProjectApplication implements CommandLineRunner {
     private final Sender sender;
     private final DatabaseInitService dbInitService;

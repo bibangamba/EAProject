@@ -8,12 +8,13 @@ import lombok.Data;
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name = "ID")
     private int id;
 
     @Column(name = "Capacity")
     private int capacity;
-    @Column(name="Name")
+
+    @Column(name = "Name")
     private String name;
 
     @ManyToOne
