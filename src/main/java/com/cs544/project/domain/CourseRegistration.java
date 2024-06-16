@@ -6,20 +6,20 @@ import lombok.Data;
 @Data
 @Entity
 public class CourseRegistration {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-  @ManyToOne
-  @JoinColumn(name = "StudentId")
-  private Student student;
+    @ManyToOne
+    @JoinColumn(name = "StudentId")
+    private Student student;
 
-  @ManyToOne
-  @JoinColumn(name = "CourseOfferingId")
-  private CourseOffering courseOffering;
+    @ManyToOne
+    @JoinColumn(name = "CourseOfferingId")
+    private CourseOffering courseOffering;
 
-  //    TODO: The database requirements has a "Sequence" column in table "CourseRegistration".
-  //    @OrderColumn(name="Sequence")
-  //    @Column(name="Sequence")
-  //    int sequence;
+    //    TODO: The database requirements has a "Sequence" column in table "CourseRegistration".
+    //    @OrderColumn(name="Sequence")
+    //    @Column(name="Sequence")
+    //    int sequence;
 }

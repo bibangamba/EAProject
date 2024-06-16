@@ -4,19 +4,20 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
 public class Faculty extends Person {
 
-  @ElementCollection
-  @CollectionTable(name = "FacultyHobby")
-  List<String> hobbies;
+    @ElementCollection
+    @CollectionTable(name = "FacultyHobby")
+    List<String> hobbies;
 
-  @Column(name = "Salutation")
-  private String salutation;
+    @Column(name = "Salutation")
+    private String salutation;
 }

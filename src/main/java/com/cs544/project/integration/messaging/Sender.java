@@ -7,16 +7,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class Sender {
 
-  @Value("${app.queues.jms_sample_queue}")
-  private String sampleQueue;
+    private final JmsTemplate jmsTemplate;
+    @Value("${app.queues.jms_sample_queue}")
+    private String sampleQueue;
 
-  private final JmsTemplate jmsTemplate;
+    public Sender(JmsTemplate jmsTemplate) {
+        this.jmsTemplate = jmsTemplate;
+    }
 
-  public Sender(JmsTemplate jmsTemplate) {
-    this.jmsTemplate = jmsTemplate;
-  }
-
-  public void sendMessage(String message) {
-    jmsTemplate.convertAndSend(sampleQueue, message);
-  }
+    public void sendMessage(String message) {
+        jmsTemplate.convertAndSend(sampleQueue, message);
+    }
 }
