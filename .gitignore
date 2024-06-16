@@ -34,5 +34,7 @@ build/
 
 ### maven ###
 .mvn
+
+sql/
 .env
-/sql
+.DS_Store

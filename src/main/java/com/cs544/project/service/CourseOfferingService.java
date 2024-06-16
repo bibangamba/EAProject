@@ -12,11 +12,12 @@ import java.util.Optional;
 public class CourseOfferingService {
     @Autowired
     CourseOfferingRepository courseOfferingRepository;
-    public CourseOffering getCourseOfferingById(long id) throws CustomNotFoundException {
-            Optional<CourseOffering> courseOffering =courseOfferingRepository.findById(id);
-            if(courseOffering.isPresent()){
-                return courseOffering.get();
-            }
-            throw new CustomNotFoundException("The course with id:" + id + " not found");
+
+    public CourseOffering getCourseOfferingById(int id) throws CustomNotFoundException {
+        Optional<CourseOffering> courseOffering = courseOfferingRepository.findById(id);
+        if (courseOffering.isPresent()) {
+            return courseOffering.get();
+        }
+        throw new CustomNotFoundException("The course with id:" + id + " not found");
     }
 }

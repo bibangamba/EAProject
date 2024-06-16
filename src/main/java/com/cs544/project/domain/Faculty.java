@@ -18,6 +18,6 @@ public class Faculty extends Person {
     @CollectionTable(name = "FacultyHobby")
     List<String> hobbies;
 
-    @Column(name="Salutation")
+    @Column(name = "Salutation")
     private String salutation;
 }
