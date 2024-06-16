@@ -31,9 +31,9 @@ spring:
 #              packages: com.cs544.project.kafka.message
 logging:
   level:
-    root: ERROR
+    root: INFO
     org:
-      springframework: ERROR
+      springframework: INFO
 
 app:
   queues:

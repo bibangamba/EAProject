@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/admin-view")
 public class AdminViewController {
-    @Autowired
-    StudentService studentService;
+  @Autowired StudentService studentService;
 
-    @GetMapping("/students/{studentId}")
-    public ResponseEntity<?> getStudentsByStudentID(@PathVariable("studentId") String studentId) throws CustomNotFoundException {
-        Student student = studentService.getStudentByStudentID(studentId);
-        return ResponseEntity.ok(student);
-    }
+  @GetMapping("/students/{studentId}")
+  public ResponseEntity<?> getStudentsByStudentID(@PathVariable("studentId") String studentId)
+      throws CustomNotFoundException {
+    Student student = studentService.getStudentByStudentID(studentId);
+    return ResponseEntity.ok(student);
+  }
 }

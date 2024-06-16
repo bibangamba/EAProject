@@ -1,15 +1,14 @@
 package com.cs544.project.domain;
 
 import jakarta.persistence.Embeddable;
-import lombok.Data;
-
 import java.time.LocalDateTime;
+import lombok.Data;
 
 @Data
 @Embeddable
 public class AuditData {
-    LocalDateTime createdOn;
-    LocalDateTime updatedOn;
-    String createdBy;
-    String updatedBy;
+  LocalDateTime createdOn;
+  LocalDateTime updatedOn;
+  String createdBy;
+  String updatedBy;
 }

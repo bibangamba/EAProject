@@ -6,20 +6,20 @@ import lombok.Data;
 @Data
 @Entity
 public class Location {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
-    private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "ID")
+  private int id;
 
-    @Column(name = "Capacity")
-    private int capacity;
-    @Column(name="Name")
-    private String name;
+  @Column(name = "Capacity")
+  private int capacity;
 
-    @ManyToOne
-    @JoinColumn(name = "type_id")
-    private LocationType locationType;
+  @Column(name = "Name")
+  private String name;
 
-    @Embedded
-    private AuditData auditData;
+  @ManyToOne
+  @JoinColumn(name = "type_id")
+  private LocationType locationType;
+
+  @Embedded private AuditData auditData;
 }
