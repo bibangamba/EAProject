@@ -10,6 +10,8 @@ public class CourseRegistration {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    private double grade;
+
     @ManyToOne
     @JoinColumn(name = "StudentId")
     private Student student;

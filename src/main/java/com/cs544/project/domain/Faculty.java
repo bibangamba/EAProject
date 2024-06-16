@@ -20,4 +20,5 @@ public class Faculty extends Person {
 
     @Column(name = "Salutation")
     private String salutation;
+
 }

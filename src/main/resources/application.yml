@@ -7,6 +7,9 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
   jpa:
     hibernate:
       ddl-auto: create
@@ -31,9 +34,9 @@ spring:
 #              packages: com.cs544.project.kafka.message
 logging:
   level:
-    root: ERROR
+    root: error
     org:
-      springframework: ERROR
+      springframework: error
 
 app:
   queues:
