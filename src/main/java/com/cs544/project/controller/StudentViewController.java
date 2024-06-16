@@ -8,6 +8,7 @@ import com.cs544.project.exception.CustomNotFoundException;
 import com.cs544.project.repository.CourseRegistrationRepository;
 import com.cs544.project.repository.StudentRepository;
 import com.cs544.project.service.CourseOfferingService;
+import com.cs544.project.service.CourseRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,7 @@ public class StudentViewController {
     private StudentRepository studentRepository;
 
     @Autowired
-    private CourseRegistrationRepository courseRegistrationRepository;
+    private CourseRegistrationService courseRegistrationService;
 
     private Student student;
 
@@ -43,10 +44,10 @@ public class StudentViewController {
 
     @GetMapping("/course-offerings")
     public ResponseEntity<?> getCourseOffering() {
+        // student should came from the logged in user
         student = studentRepository.findFirstByFirstName("John");
-        Collection<CourseRegistration> courseRegistrationList = courseRegistrationRepository.findAllByStudent(student);
-        Collection<StudentCourse> studentCourses = courseRegistrationList.stream().map(c -> new StudentCourse(student, c)).toList();
-        if(studentCourses.isEmpty()) {
+        Collection<StudentCourse> studentCourses = courseRegistrationService.getCourseByStudent(student);
+         if(studentCourses.isEmpty()) {
             return new ResponseEntity<String>("not found", HttpStatus.OK);
         }
         return new ResponseEntity<Collection<StudentCourse>>(studentCourses, HttpStatus.OK);
