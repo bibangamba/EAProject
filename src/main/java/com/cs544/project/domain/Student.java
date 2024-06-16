@@ -1,13 +1,11 @@
 package com.cs544.project.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -28,4 +26,5 @@ public class Student extends Person {
     @ManyToOne
     @JoinColumn(name = "FacultyAdviserID")
     private Faculty faculty;
+
 }
