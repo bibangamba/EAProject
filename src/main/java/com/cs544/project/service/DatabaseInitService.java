@@ -1,14 +1,15 @@
 package com.cs544.project.service;
 
-
 import com.cs544.project.domain.*;
 import com.cs544.project.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,7 +97,8 @@ public class DatabaseInitService {
         course1.setCourseName("Introduction to Computer Science");
         course1.setCourseCode("CS101");
         course1.setCredits(3.0f);
-        course1.setCourseDescription("An introduction to the fundamental concepts of computer science.");
+        course1.setCourseDescription(
+                "An introduction to the fundamental concepts of computer science.");
         course1.setDepartment("Computer Science");
         List<Course> prerequisites1 = new ArrayList<>();
         courseRepository.save(course1);
@@ -115,6 +117,8 @@ public class DatabaseInitService {
         // Course Offerings
         CourseOffering courseOffering1 = new CourseOffering();
         courseOffering1.setCourse(course1);
+        courseOffering1.setStartDate(LocalDate.of(2024, 5, 27));
+        courseOffering1.setEndDate(LocalDate.of(2024, 6, 20));
         courseOffering1.setCapacity(50);
         courseOffering1.setCredits(3.0f);
         courseOffering1.setCourseOfferingType(CourseOfferingType.FULL_TIME);
@@ -124,6 +128,8 @@ public class DatabaseInitService {
 
         CourseOffering courseOffering2 = new CourseOffering();
         courseOffering2.setCourse(course2);
+        courseOffering2.setStartDate(LocalDate.of(2024, 6, 24));
+        courseOffering2.setEndDate(LocalDate.of(2024, 7, 18));
         courseOffering2.setCapacity(30);
         courseOffering2.setCredits(4.0f);
         courseOffering2.setCourseOfferingType(CourseOfferingType.PART_TIME);
@@ -170,16 +176,71 @@ public class DatabaseInitService {
         courseRegistrationRepository.save(courseRegistration2);
 
         // Attendance Records
-        AttendanceRecord attendanceRecord1 = new AttendanceRecord();
-        attendanceRecord1.setScanTime(LocalDateTime.now());
-        attendanceRecord1.setStudent(student1);
-        attendanceRecord1.setLocation(location1);
-        attendanceRecordRepository.save(attendanceRecord1);
+        generateAttendanceRecord(
+                student1,
+                location1,
+                courseOffering1.getStartDate(),
+                courseOffering1.getEndDate(),
+                LocalTime.of(10, 0),
+                2);
+        generateAttendanceRecord(
+                student1,
+                location1,
+                courseOffering1.getStartDate(),
+                courseOffering1.getEndDate(),
+                LocalTime.of(13, 32),
+                2);
 
-        AttendanceRecord attendanceRecord2 = new AttendanceRecord();
-        attendanceRecord2.setScanTime(LocalDateTime.now());
-        attendanceRecord2.setStudent(student2);
-        attendanceRecord2.setLocation(location2);
-        attendanceRecordRepository.save(attendanceRecord2);
+        generateAttendanceRecord(
+                student2,
+                location2,
+                courseOffering2.getStartDate(),
+                courseOffering2.getEndDate(),
+                LocalTime.of(10, 0),
+                0);
+        generateAttendanceRecord(
+                student2,
+                location2,
+                courseOffering2.getStartDate(),
+                courseOffering2.getEndDate(),
+                LocalTime.of(13, 35),
+                0);
+    }
+
+    private void generateAttendanceRecord(
+            Student student,
+            Location location,
+            LocalDate startDate,
+            LocalDate endDate,
+            LocalTime scanTime,
+            int absences) {
+        if (startDate == null || endDate == null) {
+            System.out.println("Failed to generate attendance records");
+            return;
+        }
+        LocalDate current = startDate;
+        // skip x number of days as absences
+        current = current.plusDays(absences);
+        while (!current.isAfter(endDate)) {
+            if (current.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                // skip creating any records on sunday
+                current = current.plusDays(1);
+                continue;
+            }
+            if (scanTime.isAfter(LocalTime.of(13, 0))
+                    && (current.getDayOfWeek() == DayOfWeek.SATURDAY || current.equals(endDate))) {
+                // no afternoon attendance record on saturdays and the last day of the course offering
+                current = current.plusDays(1);
+                continue;
+            }
+
+            AttendanceRecord record = new AttendanceRecord();
+            record.setScanTime(LocalDateTime.of(current, scanTime));
+            record.setStudent(student);
+            record.setLocation(location);
+            attendanceRecordRepository.save(record);
+
+            current = current.plusDays(1);
+        }
     }
 }

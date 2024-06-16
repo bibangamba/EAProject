@@ -11,7 +11,7 @@ import java.util.Map;
 public class CustomExceptionHandler {
 
     @ExceptionHandler(CustomNotFoundException.class)
-    public Map<String, String> handleCustomNotFoundException(CustomNotFoundException e){
+    public Map<String, String> handleCustomNotFoundException(CustomNotFoundException e) {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("errorMessage", e.getMessage());
         return errorMap;

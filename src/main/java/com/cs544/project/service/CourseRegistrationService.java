@@ -1,6 +1,5 @@
 package com.cs544.project.service;
 
-import com.cs544.project.domain.Course;
 import com.cs544.project.domain.CourseRegistration;
 import com.cs544.project.domain.Student;
 import com.cs544.project.dto.StudentCourse;
@@ -14,9 +13,12 @@ import java.util.List;
 
 @Service
 public class CourseRegistrationService {
-    @Autowired
-    CourseRegistrationRepository courseRegistrationRepository;
+    private final CourseRegistrationRepository courseRegistrationRepository;
 
+    @Autowired
+    public CourseRegistrationService(CourseRegistrationRepository courseRegistrationRepository) {
+        this.courseRegistrationRepository = courseRegistrationRepository;
+    }
 
     public Collection<StudentCourse> getCourseByStudent(Student student) {
         Collection<CourseRegistration> courseRegistrationList = courseRegistrationRepository.findAllByStudent(student);
@@ -24,4 +26,8 @@ public class CourseRegistrationService {
         return studentCourses;
     }
 
+    public List<CourseRegistration> getCourseRegistrationByCourseOfferingId(int courseOfferingId)
+            throws CustomNotFoundException {
+        return courseRegistrationRepository.findCourseRegistrationByCourseOfferingId(courseOfferingId);
+    }
 }

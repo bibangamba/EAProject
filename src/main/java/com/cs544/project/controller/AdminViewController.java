@@ -17,7 +17,8 @@ public class AdminViewController {
     StudentService studentService;
 
     @GetMapping("/students/{studentId}")
-    public ResponseEntity<?> getStudentsByStudentID(@PathVariable("studentId") String studentId) throws CustomNotFoundException {
+    public ResponseEntity<?> getStudentsByStudentID(@PathVariable("studentId") String studentId)
+            throws CustomNotFoundException {
         Student student = studentService.getStudentByStudentID(studentId);
         return ResponseEntity.ok(student);
     }

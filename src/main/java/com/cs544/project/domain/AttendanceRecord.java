@@ -22,4 +22,12 @@ public class AttendanceRecord {
     @ManyToOne
     @JoinColumn(name = "LocationId")
     private Location location;
+
+    public boolean isMorningAttendance() {
+        int year = scanTime.getYear();
+        int month = scanTime.getMonthValue();
+        int day = scanTime.getDayOfMonth();
+        return scanTime.isAfter(LocalDateTime.of(year, month, day, 9, 40))
+                && scanTime.isBefore(LocalDateTime.of(year, month, day, 12, 30));
+    }
 }

@@ -4,11 +4,9 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -20,7 +18,7 @@ public class Faculty extends Person {
     @CollectionTable(name = "FacultyHobby")
     List<String> hobbies;
 
-    @Column(name="Salutation")
+    @Column(name = "Salutation")
     private String salutation;
 
 }
