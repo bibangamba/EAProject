@@ -41,8 +41,6 @@ public class StudentViewController {
     @Autowired
     CourseOfferingService courseOfferingService;
     @Autowired
-    CourseRegistrationService courseRegistrationService;
-    @Autowired
     StudentService studentService;
     @Autowired
     AttendanceRecordService attendanceRecordService;
