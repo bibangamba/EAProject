@@ -1,4 +1,4 @@
-package com.cs544.project.controller;
+package com.cs544.project.controller.adminView;
 
 import com.cs544.project.domain.Student;
 import com.cs544.project.exception.CustomNotFoundException;
@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/admin-view")
-public class AdminViewController {
+@RestController("SysAdmin")
+@RequestMapping("/admin-view/students")
+public class StudentController {
     @Autowired
     StudentService studentService;
 
-    @GetMapping("/students/{studentId}")
+    @GetMapping("/{studentId}")
     public ResponseEntity<?> getStudentsByStudentID(@PathVariable("studentId") String studentId)
             throws CustomNotFoundException {
         Student student = studentService.getStudentByStudentID(studentId);

@@ -23,6 +23,11 @@ spring:
     broker-url: ${ARTEMIS_BROKER_URL}
     user: ${ARTEMIS_USER}
     password: ${ARTEMIS_PASSWORD}
+  springdoc:
+    api-docs:
+      path: /api-docs
+    swagger-ui:
+      path: /swagger-ui.html
 #  kafka:
 #    consumer:
 #      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer

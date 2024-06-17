@@ -7,10 +7,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This Advice is an AOP concept which handles the corresponding Exception
+ * and return a Map including an error Message
+ */
 @RestControllerAdvice
 public class CustomExceptionHandler {
 
-    @ExceptionHandler(CustomNotFoundException.class)
+    // Handles any exception of type CustomNotFoundException
+    // These exception are handled in the Controller Level due to @RestControllerAdvice Annotation
+    @ExceptionHandler(CustomNotFoundException.class) 
     public Map<String, String> handleCustomNotFoundException(CustomNotFoundException e) {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("errorMessage", e.getMessage());
