@@ -15,5 +15,5 @@ public class LocationCreateRequest {
     @NotNull(message= "name cannot be null")
     private String name;
     @NotNull(message= "locationTypeId cannot be null")
-    private int locationTypeId;
+    private long locationTypeId;
 }

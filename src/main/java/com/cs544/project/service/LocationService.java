@@ -1,9 +1,11 @@
 package com.cs544.project.service;
 
+import com.cs544.project.domain.AttendanceRecord;
 import com.cs544.project.domain.Location;
 import com.cs544.project.domain.LocationType;
 import com.cs544.project.dto.request.LocationCreateRequest;
 import com.cs544.project.exception.CustomNotFoundException;
+import com.cs544.project.repository.AttendanceRecordRepository;
 import com.cs544.project.repository.LocationRepository;
 import com.cs544.project.repository.LocationTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +20,30 @@ public class LocationService {
     LocationRepository locationRepository;
 
     @Autowired
-    LocationTypeService locationTypeService;
+    LocationTypeRepository locationTypeRepository;
+
+    @Autowired
+    AttendanceRecordRepository attendanceRecordRepository;
+
+
 
     public Collection<Location> getLocations(){
         return locationRepository.findAll();
     }
 
+    public Collection<Location> getByLocationType(LocationType locationType){
+        return locationRepository.findByLocationType(locationType);
+    }
+
+    public Location get(long id) throws CustomNotFoundException{
+        Optional<Location> location =  locationRepository.findById(id);
+        return location.orElseThrow(() -> new CustomNotFoundException("Could not find locationType with id=:" + id));
+    }
+
     public Location addLocation(LocationCreateRequest locationCreateRequest) throws CustomNotFoundException{
-        LocationType locationType = locationTypeService.getLocationTypeById(locationCreateRequest.getLocationTypeId());
+        long locationTypeId = locationCreateRequest.getLocationTypeId();
+        LocationType locationType = locationTypeRepository.findById(locationTypeId)
+                .orElseThrow(() -> new CustomNotFoundException("The LocationType with id="+ locationTypeId + " not found!"));
         Location location = new Location();
         location.setName(locationCreateRequest.getName());
         location.setCapacity(locationCreateRequest.getCapacity());
@@ -39,8 +57,13 @@ public class LocationService {
         return locationRepository.save(location);
     }
 
-//    public void deleteLocation(long id) throws CustomNotFoundException{
-//        Optional<Location> location = locationRepository.findById(id);
-//        locationRepository.delete(location.orElseThrow(() -> new CustomNotFoundException("Location with id="+id+ " not found")));
-//    }
+    public void delete(long id) throws CustomNotFoundException{
+        Location location = get(id);
+        Collection<AttendanceRecord> attendanceRecords = attendanceRecordRepository.getByLocation(location);
+        for(AttendanceRecord attendanceRecord: attendanceRecords){
+            attendanceRecord.setLocation(null);
+            attendanceRecordRepository.save(attendanceRecord);
+        }
+        locationRepository.delete(location);
+    }
 }

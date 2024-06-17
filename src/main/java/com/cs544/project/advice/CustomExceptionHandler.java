@@ -1,6 +1,8 @@
 package com.cs544.project.advice;
 
 import com.cs544.project.exception.CustomNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -16,10 +18,11 @@ public class CustomExceptionHandler {
 
     // Handles any exception of type CustomNotFoundException
     // These exception are handled in the Controller Level due to @RestControllerAdvice Annotation
-    @ExceptionHandler(CustomNotFoundException.class) 
-    public Map<String, String> handleCustomNotFoundException(CustomNotFoundException e) {
+    @ExceptionHandler(CustomNotFoundException.class)
+
+    public ResponseEntity<?> handleCustomNotFoundException(CustomNotFoundException e) {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("errorMessage", e.getMessage());
-        return errorMap;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMap);
     }
 }

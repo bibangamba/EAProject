@@ -20,27 +20,27 @@ public class LocationController {
     @Autowired
     LocationService locationService;
     @GetMapping()
-    ResponseEntity<?> getLocations(){
+    ResponseEntity<?> getAll(){
         Collection<Location> locations =  locationService.getLocations();
         return ResponseEntity.ok(locations);
     }
 
     @PostMapping()
-    ResponseEntity<?> addLocation(@RequestBody @Valid LocationCreateRequest locationCreateRequest) throws CustomNotFoundException {
+    ResponseEntity<?> add(@RequestBody @Valid LocationCreateRequest locationCreateRequest) throws CustomNotFoundException {
         Location savedLocation =  locationService.addLocation(locationCreateRequest);
         LocationDto savedLocationDto = LocationAdapter.INSTANCE.toDto(savedLocation);
         return ResponseEntity.ok(savedLocation);
     }
 
     @PatchMapping()
-    ResponseEntity<?> updateLocation(@RequestBody Location location){
+    ResponseEntity<?> update(@RequestBody Location location){
         Location addedLocation =  locationService.updateLocation(location);
         return ResponseEntity.ok(addedLocation);
     }
 
-    @DeleteMapping("/{locationId}")
-    ResponseEntity<?> updateLocation(@PathVariable("locationId") long id) throws CustomNotFoundException {
-        //        locationService.deleteLocation(id);
-        return (ResponseEntity<?>) ResponseEntity.ok();
+    @DeleteMapping("/{id}")
+    ResponseEntity<?> delete(@PathVariable("id") long id) throws CustomNotFoundException {
+        locationService.delete(id);
+        return (ResponseEntity<?>) ResponseEntity.ok("Deleted");
     }
 }
