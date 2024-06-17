@@ -6,6 +6,8 @@ import com.cs544.project.repository.CourseOfferingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Optional;
 
 @Service
@@ -19,5 +21,9 @@ public class CourseOfferingService {
             return courseOffering.get();
         }
         throw new CustomNotFoundException("The course with id:" + id + " not found");
+    }
+
+    public Collection<CourseOffering> getCourseOfferingsByDate(LocalDate queryDate) {
+        return courseOfferingRepository.findCourseOfferingByDate(queryDate);
     }
 }

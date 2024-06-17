@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-@RestController
+@RestController("student-view")
 @RequestMapping("/student-view/course-offerings")
 public class CourseOfferingController {
     @Autowired
@@ -32,8 +32,6 @@ public class CourseOfferingController {
 
     @Autowired
     private CourseRegistrationService courseRegistrationService;
-
-    private Student student;
 
     @Autowired
     CourseOfferingService courseOfferingService;
@@ -45,7 +43,6 @@ public class CourseOfferingController {
     @GetMapping("/{offeringId}")
     public ResponseEntity<?> getCourseOfferingsById(@PathVariable("offeringId") int offeringId)
             throws CustomNotFoundException {
-        System.out.println(offeringId);
         CourseOffering courseOffering = courseOfferingService.getCourseOfferingById(offeringId);
         return ResponseEntity.ok(courseOffering);
     }
@@ -53,7 +50,7 @@ public class CourseOfferingController {
     @GetMapping()
     public ResponseEntity<?> getCourseOffering() {
         // student should came from the logged in user
-        student = studentRepository.findFirstByFirstName("John");
+        Student student = studentRepository.findFirstByFirstName("John");
         Collection<StudentCourse> studentCourses = courseRegistrationService.getCourseByStudent(student);
         if (studentCourses.isEmpty()) {
             return new ResponseEntity<String>("not found", HttpStatus.OK);
