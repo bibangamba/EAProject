@@ -4,7 +4,6 @@ import com.cs544.project.domain.CourseOfferingType;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 public class CourseOfferingDto {
@@ -18,5 +17,4 @@ public class CourseOfferingDto {
     private FacultyDto faculty;
     private CourseDto course;
     private AuditDataDto auditData;
-    private List<SessionDto> sessions;
 }
