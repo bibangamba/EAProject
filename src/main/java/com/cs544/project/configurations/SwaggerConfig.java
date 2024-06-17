@@ -10,6 +10,11 @@ import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * This is a Swagger Config which is used to automate API Client 
+ * You can go to "http://localhost:8080/swagger-ui/index.html"
+ * and acces the api endpoints. 
+ */
 @Configuration
 public class SwaggerConfig {
 
