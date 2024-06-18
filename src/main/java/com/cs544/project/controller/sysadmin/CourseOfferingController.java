@@ -6,17 +6,19 @@ import com.cs544.project.dto.request.CourseOfferingRequest;
 import com.cs544.project.dto.response.CourseOfferingDto;
 import com.cs544.project.exception.CustomNotFoundException;
 import com.cs544.project.service.CourseOfferingService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 
 @RestController("sys-admin-offerings")
 @RequestMapping("/sys-admin/course-offerings")
+@Validated
 public class CourseOfferingController {
 
     private final CourseOfferingService courseOfferingService;
