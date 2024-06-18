@@ -3,6 +3,7 @@ package com.cs544.project.controller.sysadmin;
 
 import com.cs544.project.adapter.LocationAdapter;
 import com.cs544.project.domain.Location;
+import com.cs544.project.domain.LocationType;
 import com.cs544.project.dto.request.LocationCreateRequest;
 import com.cs544.project.dto.request.LocationPatchRequest;
 import com.cs544.project.exception.CustomNotFoundException;
@@ -23,15 +24,29 @@ import java.util.Collection;
 public class LocationController {
     @Autowired
     LocationService locationService;
+
+    @GetMapping("/{id}")
+    ResponseEntity<?> get(@PathVariable Integer id) throws  CustomNotFoundException{
+        Location location =  locationService.get(id);
+        return ResponseEntity.ok(location);
+    }
     @GetMapping()
     ResponseEntity<?> getAll(){
         Collection<Location> locations =  locationService.get();
         return ResponseEntity.ok(locations);
     }
 
+
+
     @PostMapping()
     ResponseEntity<?> add(@Valid @RequestBody LocationCreateRequest locationCreateRequest) throws CustomNotFoundException {
         Location savedLocation =  locationService.create(locationCreateRequest);
+        return ResponseEntity.ok(LocationAdapter.INSTANCE.toDto(savedLocation));
+    }
+
+    @PutMapping("/{id}")
+    ResponseEntity<?> add(@Valid @RequestBody LocationCreateRequest locationCreateRequest, @PathParam("id") Integer id) throws CustomNotFoundException {
+        Location savedLocation =  locationService.update(id, locationCreateRequest);
         return ResponseEntity.ok(LocationAdapter.INSTANCE.toDto(savedLocation));
     }
 

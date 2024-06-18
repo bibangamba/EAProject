@@ -18,7 +18,7 @@ public class Location {
     @Column(name = "Name")
     private String name;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "type_id")
     private LocationType locationType;
 

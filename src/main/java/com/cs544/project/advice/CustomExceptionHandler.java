@@ -31,8 +31,13 @@ public class CustomExceptionHandler {
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
+            String fieldName;
             String errorMessage = error.getDefaultMessage();
+            if (error instanceof FieldError) {
+                fieldName = ((FieldError) error).getField();
+            } else {
+                fieldName = error.getObjectName(); // or handle differently if necessary
+            }
             errors.put(fieldName, errorMessage);
         });
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);

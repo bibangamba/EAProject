@@ -55,7 +55,12 @@ public class LocationService {
         return locationRepository.save(location);
     }
 
-
+    public Location update(Integer id, LocationCreateRequest locationCreateRequest) throws CustomNotFoundException{
+        Location location = get(id);
+        LocationAdapter.INSTANCE.updateEntityWithPatchRequest(locationCreateRequest, location);
+        setLocationType(locationCreateRequest.getLocationTypeId(), location);
+        return locationRepository.save(location);
+    }
 
     public Location update(Integer id, LocationPatchRequest locationPatchRequest) throws CustomNotFoundException{
         Location location = get(id);

@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ValidLocationTypeValidator.class)
 public @interface ValidLocationType {
-    String message() default "Either locationTypeId or locationType must be provided";
+    String message() default "Either locationTypeId or locationType must be provided, not both";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

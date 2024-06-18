@@ -21,6 +21,7 @@ public interface LocationAdapter {
     @Mapping(target = "auditData", ignore = true)
     Location toEntity(LocationCreateRequest locationCreateRequest);
 
-    @Mapping(target = "locationType", ignore = true)
     void updateEntityWithPatchRequest(LocationPatchRequest locationPatchRequest, @MappingTarget Location entity);
+
+    void updateEntityWithPatchRequest(LocationCreateRequest locationCreateRequest, @MappingTarget Location entity);
 }
