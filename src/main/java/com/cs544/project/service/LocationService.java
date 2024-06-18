@@ -10,8 +10,6 @@ import com.cs544.project.exception.CustomNotFoundException;
 import com.cs544.project.repository.AttendanceRecordRepository;
 import com.cs544.project.repository.LocationRepository;
 import com.cs544.project.repository.LocationTypeRepository;
-import com.cs544.project.utils.validators.ValidLocationType;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,14 +55,14 @@ public class LocationService {
 
     public Location update(Integer id, LocationCreateRequest locationCreateRequest) throws CustomNotFoundException{
         Location location = get(id);
-        LocationAdapter.INSTANCE.updateEntityWithPatchRequest(locationCreateRequest, location);
+        LocationAdapter.INSTANCE.updateEntityWithRequest(locationCreateRequest, location);
         setLocationType(locationCreateRequest.getLocationTypeId(), location);
         return locationRepository.save(location);
     }
 
     public Location update(Integer id, LocationPatchRequest locationPatchRequest) throws CustomNotFoundException{
         Location location = get(id);
-        LocationAdapter.INSTANCE.updateEntityWithPatchRequest(locationPatchRequest, location);
+        LocationAdapter.INSTANCE.updateEntityWithRequest(locationPatchRequest, location);
         setLocationType(locationPatchRequest.getLocationTypeId(), location);
         return locationRepository.save(location);
     }

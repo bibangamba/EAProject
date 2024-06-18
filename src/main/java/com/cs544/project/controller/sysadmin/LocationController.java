@@ -25,18 +25,17 @@ public class LocationController {
     @Autowired
     LocationService locationService;
 
-    @GetMapping("/{id}")
-    ResponseEntity<?> get(@PathVariable Integer id) throws  CustomNotFoundException{
-        Location location =  locationService.get(id);
-        return ResponseEntity.ok(location);
-    }
     @GetMapping()
     ResponseEntity<?> getAll(){
         Collection<Location> locations =  locationService.get();
         return ResponseEntity.ok(locations);
     }
 
-
+    @GetMapping("/{id}")
+    ResponseEntity<?> get(@PathVariable Integer id) throws  CustomNotFoundException{
+        Location location =  locationService.get(id);
+        return ResponseEntity.ok(location);
+    }
 
     @PostMapping()
     ResponseEntity<?> add(@Valid @RequestBody LocationCreateRequest locationCreateRequest) throws CustomNotFoundException {

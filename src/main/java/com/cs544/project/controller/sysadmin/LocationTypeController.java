@@ -1,21 +1,20 @@
 package com.cs544.project.controller.sysadmin;
 
+import com.cs544.project.adapter.LocationAdapter;
 import com.cs544.project.adapter.LocationTypeAdapter;
+import com.cs544.project.domain.Location;
 import com.cs544.project.domain.LocationType;
 import com.cs544.project.dto.request.LocationTypeCreateRequest;
-import com.cs544.project.dto.response.LocationTypeDto;
 import com.cs544.project.exception.CustomNotFoundException;
 import com.cs544.project.service.LocationTypeService;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/sys-admin/location-type")
@@ -36,18 +35,17 @@ public class LocationTypeController {
     }
 
     @PostMapping()
-    ResponseEntity<?> create(@RequestBody @Valid LocationTypeCreateRequest locationCreateRequest) throws CustomNotFoundException {
-        LocationType savedLocationType =  locationTypeService.add(locationCreateRequest);
-        LocationTypeDto savedLocationTypeDto = LocationTypeAdapter.INSTANCE.toDto(savedLocationType);
-        return ResponseEntity.ok(savedLocationType);
+    ResponseEntity<?> create(@RequestBody @Valid LocationTypeCreateRequest locationTypeCreateRequest) throws CustomNotFoundException {
+        LocationType savedLocationType =  locationTypeService.create(locationTypeCreateRequest);
+        return ResponseEntity.ok(LocationTypeAdapter.INSTANCE.toDto(savedLocationType));
     }
 
-//    @PatchMapping()
-//    ResponseEntity<?> update(@RequestBody LocationType location){
-//        LocationType addedLocationType =  locationTypeService.update(location);
-//        return ResponseEntity.ok(addedLocationType);
-//    }
-//
+    @PutMapping("/{id}")
+    ResponseEntity<?> add(@Valid @RequestBody LocationTypeCreateRequest locationTypeCreateRequest, @PathParam("id") Integer id) throws CustomNotFoundException {
+        LocationType savedLocationType =  locationTypeService.update(id, locationTypeCreateRequest);
+        return ResponseEntity.ok(LocationTypeAdapter.INSTANCE.toDto(savedLocationType));
+    }
+
     @DeleteMapping("/{id}")
     ResponseEntity<?> delete(@PathVariable("id") Integer id) throws CustomNotFoundException {
         locationTypeService.delete(id);

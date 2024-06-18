@@ -1,10 +1,8 @@
 package com.cs544.project.adapter;
 
 import com.cs544.project.domain.Location;
-import com.cs544.project.domain.LocationType;
 import com.cs544.project.dto.request.LocationCreateRequest;
 import com.cs544.project.dto.request.LocationPatchRequest;
-import com.cs544.project.dto.request.LocationTypeCreateRequest;
 import com.cs544.project.dto.response.LocationDto;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
@@ -21,7 +19,7 @@ public interface LocationAdapter {
     @Mapping(target = "auditData", ignore = true)
     Location toEntity(LocationCreateRequest locationCreateRequest);
 
-    void updateEntityWithPatchRequest(LocationPatchRequest locationPatchRequest, @MappingTarget Location entity);
+    void updateEntityWithRequest(LocationPatchRequest locationPatchRequest, @MappingTarget Location entity);
 
-    void updateEntityWithPatchRequest(LocationCreateRequest locationCreateRequest, @MappingTarget Location entity);
+    void updateEntityWithRequest(LocationCreateRequest locationCreateRequest, @MappingTarget Location entity);
 }

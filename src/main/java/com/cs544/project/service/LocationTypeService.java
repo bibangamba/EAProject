@@ -1,8 +1,10 @@
 package com.cs544.project.service;
 
+import com.cs544.project.adapter.LocationAdapter;
 import com.cs544.project.adapter.LocationTypeAdapter;
 import com.cs544.project.domain.Location;
 import com.cs544.project.domain.LocationType;
+import com.cs544.project.dto.request.LocationCreateRequest;
 import com.cs544.project.dto.request.LocationTypeCreateRequest;
 import com.cs544.project.exception.CustomNotFoundException;
 import com.cs544.project.repository.LocationRepository;
@@ -21,20 +23,25 @@ public class LocationTypeService {
     LocationRepository locationRepository;
     @Autowired
     LocationTypeRepository locationTypeRepository;
+
+    public Collection<LocationType> get() {
+        return locationTypeRepository.findAll();
+    }
     public LocationType get(Integer id) throws CustomNotFoundException{
         Optional<LocationType> location =  locationTypeRepository.findById(id);
         return location.orElseThrow(() -> new CustomNotFoundException("Could not find locationType with id=:" + id));
     }
 
-    public Collection<LocationType> get() {
-        return locationTypeRepository.findAll();
-    }
-
-    public LocationType add(LocationTypeCreateRequest locationTypeCreateRequest) {
+    public LocationType create(LocationTypeCreateRequest locationTypeCreateRequest) {
         LocationType locationType=LocationTypeAdapter.INSTANCE.toEntity(locationTypeCreateRequest);
         return locationTypeRepository.save(locationType);
     }
 
+    public LocationType update(Integer id, LocationTypeCreateRequest locationTypeCreateRequest) throws CustomNotFoundException{
+        LocationType locationType = get(id);
+        LocationTypeAdapter.INSTANCE.updateEntityWithRequest(locationTypeCreateRequest, locationType);
+        return locationTypeRepository.save(locationType);
+    }
 
     public void delete(Integer id) throws CustomNotFoundException{
         LocationType locationType = get(id);
