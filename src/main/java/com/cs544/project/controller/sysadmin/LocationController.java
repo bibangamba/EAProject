@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
-@RestController
+@RestController("sys-admin-location")
 @RequestMapping("/sys-admin/locations")
 public class LocationController {
     @Autowired
@@ -28,8 +28,7 @@ public class LocationController {
     @PostMapping()
     ResponseEntity<?> addLocation(@RequestBody @Valid LocationCreateRequest locationCreateRequest) throws CustomNotFoundException {
         Location savedLocation =  locationService.addLocation(locationCreateRequest);
-        LocationDto savedLocationDto = LocationAdapter.INSTANCE.toDto(savedLocation);
-        return ResponseEntity.ok(savedLocation);
+        return ResponseEntity.ok(LocationAdapter.INSTANCE.toDto(savedLocation));
     }
 
     @PatchMapping()

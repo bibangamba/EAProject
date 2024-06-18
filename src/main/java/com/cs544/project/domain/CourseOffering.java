@@ -44,6 +44,12 @@ public class CourseOffering {
     @Transient
     private List<Session> sessions;
 
+    public CourseOffering() {
+    }
+
+    public CourseOffering(int credits, int capacity, String room, LocalDate startDate, LocalDate endDate, CourseOfferingType type) {
+    }
+
     public List<Session> getAttendedSessions(List<AttendanceRecord> attendanceRecords) {
         Map<LocalDate, Session> sessionMap = getSessions();
         for (AttendanceRecord record : attendanceRecords) {
