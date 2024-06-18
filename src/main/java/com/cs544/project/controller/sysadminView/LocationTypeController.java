@@ -1,8 +1,6 @@
-package com.cs544.project.controller.sysadmin;
+package com.cs544.project.controller.sysadminView;
 
-import com.cs544.project.adapter.LocationAdapter;
 import com.cs544.project.adapter.LocationTypeAdapter;
-import com.cs544.project.domain.Location;
 import com.cs544.project.domain.LocationType;
 import com.cs544.project.dto.request.LocationTypeCreateRequest;
 import com.cs544.project.exception.CustomNotFoundException;

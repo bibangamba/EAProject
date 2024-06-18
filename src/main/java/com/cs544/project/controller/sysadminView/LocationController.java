@@ -1,4 +1,4 @@
-package com.cs544.project.controller.sysadmin;
+package com.cs544.project.controller.sysadminView;
 
 
 import com.cs544.project.adapter.LocationAdapter;
