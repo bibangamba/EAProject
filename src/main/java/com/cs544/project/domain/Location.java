@@ -2,6 +2,7 @@ package com.cs544.project.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.mapstruct.MapperConfig;
 
 @Data
 @Entity
@@ -9,15 +10,15 @@ public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private Integer id;
 
     @Column(name = "Capacity")
-    private int capacity;
+    private Integer capacity;
 
     @Column(name = "Name")
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "type_id")
     private LocationType locationType;
 

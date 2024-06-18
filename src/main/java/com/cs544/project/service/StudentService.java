@@ -16,7 +16,7 @@ public class StudentService {
 
     public Student getStudentByStudentID(String id) throws CustomNotFoundException {
         Optional<Student> student = studentRepository.findByStudentID(id);
-        return student.orElseThrow(CustomNotFoundException::new);
+        return student.orElseThrow(() -> new CustomNotFoundException("Student with id=" + id+ " not found"));
     }
 
     public List<Student> getAllStudents() {
