@@ -15,11 +15,11 @@ public class AttendanceRecord {
     @Column(name = "ScanDateTime")
     private LocalDateTime scanTime;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "StudentId")
     private Student student;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "LocationId")
     private Location location;
 
