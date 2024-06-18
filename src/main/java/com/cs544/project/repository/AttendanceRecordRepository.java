@@ -25,4 +25,6 @@ public interface AttendanceRecordRepository extends JpaRepository<AttendanceReco
             "JOIN ar.location l " +
             "WHERE co.id = :offeringId")
     List<AttendanceRecordDto> findAttendanceRecordsByOfferingId(@Param("offeringId") Long offeringId);
+
+    List<AttendanceRecord> getAttendanceRecordsByStudent(Student student);
 }

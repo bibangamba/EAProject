@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CourseRegistrationService {
@@ -29,5 +30,10 @@ public class CourseRegistrationService {
     public List<CourseRegistration> getCourseRegistrationByCourseOfferingId(int courseOfferingId)
             throws CustomNotFoundException {
         return courseRegistrationRepository.findCourseRegistrationByCourseOfferingId(courseOfferingId);
+    }
+
+    public List<Map<String, Object>> getAllCourceOfferingData(int courseOfferingId)
+            throws CustomNotFoundException {
+        return courseRegistrationRepository.findCourseOfferingWithRegistrations(courseOfferingId);
     }
 }

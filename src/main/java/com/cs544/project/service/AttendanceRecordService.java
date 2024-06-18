@@ -33,6 +33,7 @@ public class AttendanceRecordService {
                 student, from, to);
     }
 
+
     public ByteArrayInputStream exportAttendanceToExcel(Long courseOfferingId) throws IOException {
         List<AttendanceRecordDto> records = attendanceRecordRepository.findAttendanceRecordsByOfferingId(courseOfferingId);
 
@@ -59,5 +60,10 @@ public class AttendanceRecordService {
             workbook.write(out);
             return new ByteArrayInputStream(out.toByteArray());
         }
+    }
+
+    public List<AttendanceRecord> getAllAttendanceRecordsByStudent(
+            Student student) {
+        return attendanceRecordRepository.getAttendanceRecordsByStudent(student);
     }
 }
