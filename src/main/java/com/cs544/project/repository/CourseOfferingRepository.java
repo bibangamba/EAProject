@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CourseOfferingRepository  extends JpaRepository<CourseOffering, Integer> {
-    Optional<CourseOffering> findById(long id);
+    Optional<CourseOffering> findById(int id);
 
     @Query("select co from CourseOffering co where co.startDate <= :queryDate and co.endDate >= :queryDate")
     List<CourseOffering> findCourseOfferingByDate(LocalDate queryDate);

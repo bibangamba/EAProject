@@ -23,7 +23,7 @@ public class Student extends Person {
     @Column(name = "ApplicantID")
     private String applicantID;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "FacultyAdviserID")
     private Faculty faculty;
 
