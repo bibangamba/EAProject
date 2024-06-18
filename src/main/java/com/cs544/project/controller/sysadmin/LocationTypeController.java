@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/sys-admin/location-type")
+@Validated
 public class LocationTypeController {
     @Autowired
     LocationTypeService locationTypeService;
@@ -28,7 +30,7 @@ public class LocationTypeController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<?> get(@PathVariable long id) throws  CustomNotFoundException{
+    ResponseEntity<?> get(@PathVariable Integer id) throws  CustomNotFoundException{
         LocationType locationTypes =  locationTypeService.get(id);
         return ResponseEntity.ok(locationTypes);
     }
@@ -47,7 +49,7 @@ public class LocationTypeController {
 //    }
 //
     @DeleteMapping("/{id}")
-    ResponseEntity<?> delete(@PathVariable("id") long id) throws CustomNotFoundException {
+    ResponseEntity<?> delete(@PathVariable("id") Integer id) throws CustomNotFoundException {
         locationTypeService.delete(id);
         return ResponseEntity.ok("Deleted");
     }

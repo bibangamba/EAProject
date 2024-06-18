@@ -5,6 +5,7 @@ import com.cs544.project.domain.Location;
 import com.cs544.project.domain.LocationType;
 import com.cs544.project.dto.request.LocationTypeCreateRequest;
 import com.cs544.project.exception.CustomNotFoundException;
+import com.cs544.project.repository.LocationRepository;
 import com.cs544.project.repository.LocationTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,10 @@ import java.util.Optional;
 @Transactional
 public class LocationTypeService {
     @Autowired
-    LocationService locationService;
+    LocationRepository locationRepository;
     @Autowired
     LocationTypeRepository locationTypeRepository;
-    public LocationType get(long id) throws CustomNotFoundException{
+    public LocationType get(Integer id) throws CustomNotFoundException{
         Optional<LocationType> location =  locationTypeRepository.findById(id);
         return location.orElseThrow(() -> new CustomNotFoundException("Could not find locationType with id=:" + id));
     }
@@ -35,12 +36,12 @@ public class LocationTypeService {
     }
 
 
-    public void delete(long id) throws CustomNotFoundException{
+    public void delete(Integer id) throws CustomNotFoundException{
         LocationType locationType = get(id);
-        Collection<Location> locations = locationService.getByLocationType(locationType);
+        Collection<Location> locations = locationRepository.findByLocationType(locationType);
         for(Location location: locations){
             location.setLocationType(null);
-            locationService.updateLocation(location);
+            locationRepository.save(location);
         }
         locationTypeRepository.delete(locationType);
     }
