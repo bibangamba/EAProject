@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+@RestController("sys-admin-students")
 @RequestMapping("/sys-admin/students")
 public class StudentController {
 

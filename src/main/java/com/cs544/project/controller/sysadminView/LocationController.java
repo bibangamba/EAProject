@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
-@RestController
+@RestController("sys-admin-location")
 @RequestMapping("/sys-admin/locations")
 @Validated
 public class LocationController {
@@ -40,6 +40,7 @@ public class LocationController {
     @PostMapping()
     ResponseEntity<?> add(@Valid @RequestBody LocationCreateRequest locationCreateRequest) throws CustomNotFoundException {
         Location savedLocation =  locationService.create(locationCreateRequest);
+
         return ResponseEntity.ok(LocationAdapter.INSTANCE.toDto(savedLocation));
     }
 
