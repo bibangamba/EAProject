@@ -25,7 +25,7 @@ public class ProjectApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        this.sender.sendMessage("Hueco Mundo");
+//        this.sender.sendMessage("Hueco Mundo");
         // add more samples to this method only, commit them so everyone has them too.
         // we can use it for unit testing too
         dbInitService.addSampleData();
