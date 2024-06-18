@@ -34,4 +34,16 @@ public class Course {
 
     @Embedded
     private AuditData auditData;
+
+    public Course() {
+    }
+
+    public Course(float credits, String courseDescription, String courseCode, String courseName, String department) {
+        this.credits = credits;
+        this.courseDescription = courseDescription;
+        this.courseCode = courseCode;
+        this.courseName = courseName;
+        this.department = department;
+    }
+
 }

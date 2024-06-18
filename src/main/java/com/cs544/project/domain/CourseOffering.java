@@ -33,11 +33,11 @@ public class CourseOffering {
     @Column(name = "CourseOfferingType")
     private CourseOfferingType courseOfferingType;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "FacultyID")
     private Faculty faculty;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "CourseID")
     private Course course;
 

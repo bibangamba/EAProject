@@ -21,4 +21,12 @@ public class Faculty extends Person {
     @Column(name = "Salutation")
     private String salutation;
 
+    public Faculty() {
+    }
+
+    public Faculty(Person person, List<String> hobbies, String salutation) {
+        super();
+        this.hobbies = hobbies;
+        this.salutation = salutation;
+    }
 }

@@ -12,11 +12,11 @@ public class CourseRegistration {
 
     private double grade;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "StudentId")
     private Student student;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "CourseOfferingId")
     private CourseOffering courseOffering;
 
