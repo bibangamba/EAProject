@@ -3,6 +3,7 @@ package com.cs544.project.advice;
 import com.cs544.project.exception.CustomNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,7 +17,7 @@ import java.util.Map;
  * and return a Map including an error Message
  */
 @RestControllerAdvice
-public class CustomExceptionHandler {
+public class ExceptionHandlerAdvice {
 
     // Handles any exception of type CustomNotFoundException
     // These exception are handled in the Controller Level due to @RestControllerAdvice Annotation
@@ -41,5 +42,10 @@ public class CustomExceptionHandler {
             errors.put(fieldName, errorMessage);
         });
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Map<String, String>> handleParsingExceptions(HttpMessageNotReadableException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("parsingError", ex.getLocalizedMessage()));
     }
 }
