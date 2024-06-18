@@ -1,5 +1,6 @@
 package com.cs544.project.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import java.util.Map;
 @Entity
 public class CourseOffering {
     @Transient
+    @JsonIgnore
     Logger logger = LoggerFactory.getLogger(CourseOffering.class);
 
     @Id

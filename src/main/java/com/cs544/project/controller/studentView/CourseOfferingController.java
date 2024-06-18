@@ -1,5 +1,6 @@
 package com.cs544.project.controller.studentView;
 
+import com.cs544.project.adapter.CourseOfferingAdapter;
 import com.cs544.project.domain.AttendanceRecord;
 import com.cs544.project.domain.CourseOffering;
 import com.cs544.project.domain.Student;
@@ -44,7 +45,7 @@ public class CourseOfferingController {
     public ResponseEntity<?> getCourseOfferingsById(@PathVariable("offeringId") int offeringId)
             throws CustomNotFoundException {
         CourseOffering courseOffering = courseOfferingService.getCourseOfferingById(offeringId);
-        return ResponseEntity.ok(courseOffering);
+        return ResponseEntity.ok(CourseOfferingAdapter.INSTANCE.toDto(courseOffering));
     }
 
     @GetMapping()
