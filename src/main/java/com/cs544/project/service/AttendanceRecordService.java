@@ -2,6 +2,7 @@ package com.cs544.project.service;
 
 import com.cs544.project.domain.AttendanceRecord;
 import com.cs544.project.domain.Student;
+import com.cs544.project.dto.response.AttendanceRecordDto;
 import com.cs544.project.exception.CustomNotFoundException;
 import com.cs544.project.repository.AttendanceRecordRepository;
 import org.apache.poi.ss.usermodel.Row;
@@ -33,7 +34,7 @@ public class AttendanceRecordService {
     }
 
     public ByteArrayInputStream exportAttendanceToExcel(Long courseOfferingId) throws IOException {
-        List<AttendanceRecord> records = attendanceRecordRepository.findByCourseOfferingId(courseOfferingId);
+        List<AttendanceRecordDto> records = attendanceRecordRepository.findAttendanceRecordsByOfferingId(courseOfferingId);
 
         try (Workbook workbook = new XSSFWorkbook()) {
 
@@ -46,7 +47,7 @@ public class AttendanceRecordService {
             header.createCell(3).setCellValue("Scan DateTime");
 
             int rowNum = 1;
-            for (AttendanceRecord record : records) {
+            for (AttendanceRecordDto record : records) {
                 Row row = sheet.createRow(rowNum++);
                 row.createCell(0).setCellValue(record.getStudent().getStudentID());
                 row.createCell(1).setCellValue(record.getStudent().getFirstName() + " " + record.getStudent().getLastName());

@@ -9,4 +9,12 @@ public class LocationDto {
     private String name;
     private LocationTypeDto locationType;
     private AuditDataDto auditData;
+
+    public LocationDto(String locationName) {
+        this.name = locationName;
+    }
+
+    public LocationDto() {
+
+    }
 }
