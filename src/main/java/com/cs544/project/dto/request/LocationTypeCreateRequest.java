@@ -1,10 +1,10 @@
 package com.cs544.project.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
 @Data
 public class LocationTypeCreateRequest {
-    @NotNull()
+    @NotBlank(message = "type cannot be null")
     private String type;
 }

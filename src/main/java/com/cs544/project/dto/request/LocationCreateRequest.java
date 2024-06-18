@@ -1,19 +1,22 @@
 package com.cs544.project.dto.request;
 
+import com.cs544.project.utils.validators.ValidLocationType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
 
 /**
  * This class is used to accept request from the client with validation
  * to add Location. 
  */
 @Data
+@ValidLocationType
 public class LocationCreateRequest {
     @NotNull(message= "capacity cannot be null")
-    private int capacity;
-    @NotNull(message= "name cannot be null")
+    private Integer capacity;
+    @NotBlank(message= "name cannot be null")
     private String name;
-    @NotNull(message= "locationTypeId cannot be null")
-    private long locationTypeId;
+    private Integer locationTypeId;
+    private LocationTypeCreateRequest locationType;
 }

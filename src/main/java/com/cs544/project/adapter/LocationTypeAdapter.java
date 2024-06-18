@@ -4,6 +4,7 @@ import com.cs544.project.domain.LocationType;
 import com.cs544.project.dto.request.LocationTypeCreateRequest;
 import com.cs544.project.dto.response.LocationTypeDto;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
