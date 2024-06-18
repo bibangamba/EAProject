@@ -20,7 +20,7 @@ public class CourseOfferingService {
         if (courseOffering.isPresent()) {
             return courseOffering.get();
         }
-        throw new CustomNotFoundException("The course with id:" + id + " not found");
+        throw new CustomNotFoundException("The course with id=" + id + " not found");
     }
 
     public Collection<CourseOffering> getCourseOfferingsByDate(LocalDate queryDate) {
