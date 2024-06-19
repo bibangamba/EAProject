@@ -1,19 +1,16 @@
 package com.cs544.project;
 
-import com.cs544.project.domain.Email;
 import com.cs544.project.integration.messaging.EmailSender;
 import com.cs544.project.service.DatabaseInitService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jms.annotation.EnableJms;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableJms
+@EnableScheduling
 @SpringBootApplication
 public class ProjectApplication implements CommandLineRunner {
     private final EmailSender sender;
@@ -31,7 +28,6 @@ public class ProjectApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        this.sender.sendEmail(Email.getSampleData());
         // add more samples to this method only, commit them so everyone has them too.
         // we can use it for unit testing too
         dbInitService.addSampleData();
