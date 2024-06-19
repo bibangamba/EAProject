@@ -30,14 +30,14 @@ jobs:
 
     - name: Decode .env file
       run: |
-        echo "${{ secrets.ENV_BASE64 }}" | base64 --decode > .env
+        echo "${{ secrets.ENV_FILE }}" | base64 --decode > .env
 
     - name: Export environment variables from .env
       run: |
         set -o allexport
         source .env
         set -o allexport
-        
+
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
