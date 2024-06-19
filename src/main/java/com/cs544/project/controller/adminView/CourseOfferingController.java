@@ -2,6 +2,7 @@ package com.cs544.project.controller.adminView;
 
 import com.cs544.project.adapter.CourseOfferingAdapter;
 import com.cs544.project.domain.CourseOffering;
+import com.cs544.project.domain.CourseRegistration;
 import com.cs544.project.dto.response.CourseOfferingDto;
 import com.cs544.project.exception.CustomNotFoundException;
 import com.cs544.project.service.CourseOfferingService;
@@ -40,7 +41,7 @@ public class CourseOfferingController {
     @GetMapping("/{offeringId}")
     public ResponseEntity<?> getCourseOfferingsById(@PathVariable("offeringId") int offeringId)
             throws CustomNotFoundException {
-        List<Map<String, Object>> courseOfferingData = courseRegistrationService.getAllCourceOfferingData(offeringId);
+        Collection<CourseRegistration>  courseOfferingData = courseRegistrationService.getAllCourseOfferingData(offeringId);
         return ResponseEntity.ok(courseOfferingData);
     }
 }

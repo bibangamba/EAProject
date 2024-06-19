@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/student-view/attendance-records")
@@ -33,8 +34,11 @@ public class AttendanceRecordsController {
     @GetMapping()
     public ResponseEntity<?> getCourseOffering() {
         // student should come from the logged-in user
-        Student student = studentRepository.findFirstByFirstName("John");
-        Collection<AttendanceRecord> allAttendanceRecords = attendanceRecordService.getAllAttendanceRecordsByStudent(student);
+        Optional<Student> student = studentRepository.findByStudentID("3");
+        if (student.isEmpty()) {
+            return new ResponseEntity<String>("No Student with Id provided", HttpStatus.OK);
+        }
+        Collection<AttendanceRecord> allAttendanceRecords = attendanceRecordService.getAllAttendanceRecordsByStudent(student.get());
         if (allAttendanceRecords.isEmpty()) {
             return new ResponseEntity<String>("No attendance records has been recorded", HttpStatus.OK);
         }

@@ -38,6 +38,6 @@ public class CoursesController {
     @DeleteMapping("/{courseId}")
     ResponseEntity<?> deleteCourse(@PathVariable("courseId") int id) throws CustomNotFoundException {
         Boolean status = courseService.deleteCourse(id);
-        return ResponseEntity.ok(status);
+        return ResponseEntity.ok(!status);
     }
 }

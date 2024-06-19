@@ -15,12 +15,14 @@ public interface CourseRegistrationRepository extends JpaRepository<CourseRegist
     List<CourseRegistration> findCourseRegistrationByCourseOfferingId(int courseOfferingId);
     public Collection<CourseRegistration> findAllByStudent(Student student);
 
+    public Collection<CourseRegistration> getAllByCourseOffering(CourseOffering courseOffering);
 
-    @Query(value ="SELECT cr,co,s " +
-            "from CourseRegistration cr "+
-            "inner join CourseOffering co on cr.CourseOfferingId = co.id"+
-            "inner join Student s on s.id = cr.StudentId"+
-            "where co.id = :CourseOfferingID",
-            nativeQuery = true)
+    @Query("SELECT cr,co,s " +
+            "FROM CourseRegistration cr " +
+            "JOIN cr.courseOffering co " +
+            "JOIN cr.student s " +
+            "WHERE co.id = :CourseOfferingID")
     List<Map<String, Object>>  findCourseOfferingWithRegistrations(@Param("CourseOfferingID") int CourseOfferingID);
+
+
 }
