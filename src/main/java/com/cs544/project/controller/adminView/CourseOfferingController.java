@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,12 @@ public class CourseOfferingController {
 
     @GetMapping()
     public ResponseEntity<?> getCourseOfferings(@RequestParam("date") String dateYMD) {
-        LocalDate queryDate = LocalDate.parse(dateYMD, DateTimeFormatter.ISO_DATE);
+        LocalDate queryDate;
+        try{
+            queryDate = LocalDate.parse(dateYMD, DateTimeFormatter.ISO_DATE);
+        }catch (DateTimeParseException e){
+            return ResponseEntity.badRequest().body("parsingError: 'date' request parameter must be in the yyyy-mm-dd format. Received: "+dateYMD);
+        }
 
         Collection<CourseOffering> offeringsByDate = courseOfferingService.getCourseOfferingsByDate(queryDate);
 

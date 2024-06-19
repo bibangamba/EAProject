@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.core.JmsTemplate;
 
 @Configuration
-public class TestConfiguration {
+public class ReusableBeansTestConfiguration {
     @MockBean
     private EmailSender sender;
 
