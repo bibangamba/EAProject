@@ -45,4 +45,4 @@ logging:
 
 app:
   queues:
-    jms_sample_queue: jms_sample_queue
+    email_queue: ${EMAIL_SERVICE}

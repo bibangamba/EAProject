@@ -40,9 +40,6 @@ public class CourseRegistrationService {
     public Collection<CourseRegistration> getAllCourseOfferingData(int courseOfferingId)
             throws CustomNotFoundException {
         Optional<CourseOffering> courseOffering = courseOfferingRepository.findById(courseOfferingId);
-//        if (courseOffering.isEmpty()) {
-//            return;
-//        }
         Collection<CourseRegistration> courseRegistrations = courseRegistrationRepository.getAllByCourseOffering(courseOffering.get());
         return courseRegistrations;
     }

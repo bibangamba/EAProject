@@ -1,6 +1,5 @@
 package com.cs544.project.repository;
 
-import com.cs544.project.TestConfiguration;
 import com.cs544.project.domain.Course;
 import com.cs544.project.domain.CourseOffering;
 import com.cs544.project.domain.Faculty;
@@ -21,7 +20,6 @@ import static org.junit.Assert.assertFalse;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@Import(TestConfiguration.class)
 public class CourseOfferingRepositoryTests {
     @Autowired
     private TestEntityManager testEntityManager;
