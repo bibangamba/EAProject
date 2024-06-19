@@ -9,7 +9,7 @@ import com.cs544.project.exception.CustomNotFoundException;
 import com.cs544.project.repository.StudentRepository;
 import com.cs544.project.service.*;
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

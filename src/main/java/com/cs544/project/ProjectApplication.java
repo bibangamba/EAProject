@@ -14,8 +14,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableJms
 @EnableScheduling
 @SpringBootApplication
-@ComponentScan(basePackages = "com.cs544.project")
-// @EnableJpaRepositories(basePackages = "com.cs544.project.repository")
 public class ProjectApplication implements CommandLineRunner {
     private final EmailSender sender;
     private final DatabaseInitService dbInitService;

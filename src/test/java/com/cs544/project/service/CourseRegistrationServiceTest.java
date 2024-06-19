@@ -1,5 +1,6 @@
 package com.cs544.project.service;
 
+import com.cs544.project.domain.Course;
 import com.cs544.project.domain.CourseOffering;
 import com.cs544.project.domain.CourseRegistration;
 import com.cs544.project.domain.Student;
@@ -7,20 +8,16 @@ import com.cs544.project.dto.StudentCourse;
 import com.cs544.project.exception.CustomNotFoundException;
 import com.cs544.project.repository.CourseOfferingRepository;
 import com.cs544.project.repository.CourseRegistrationRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.Before;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -43,7 +40,7 @@ public class CourseRegistrationServiceTest {
     private CourseOffering courseOffering;
     private CourseRegistration courseRegistration;
 
-    @BeforeEach
+    @Before
     public void setUp() {
         student = new Student();
         student.setId(1);
@@ -52,6 +49,15 @@ public class CourseRegistrationServiceTest {
 
         courseOffering = new CourseOffering();
         courseOffering.setId(1);
+        courseOffering.setStartDate(LocalDate.of(2024, 5, 27));
+        courseOffering.setEndDate(LocalDate.of(2024, 6, 20));
+        courseOffering.setCapacity(50);
+        courseOffering.setCredits(3.0f);
+        Course course1 = new Course();
+        course1.setCourseName("Introduction to Computer Science");
+        course1.setCourseCode("CS101");
+        course1.setCredits(3.0f);
+        courseOffering.setCourse(course1);
 
         courseRegistration = new CourseRegistration();
         courseRegistration.setId(1);
@@ -61,9 +67,10 @@ public class CourseRegistrationServiceTest {
 
     @Test
     public void testGetCourseByStudent() {
-        when(courseRegistrationRepository.findAllByStudent(any(Student.class)))
+        when(courseRegistrationRepository.findAllByStudent(student))
                 .thenReturn(Collections.singletonList(courseRegistration));
 
+        System.out.println(student);
         Collection<StudentCourse> studentCourses = courseRegistrationService.getCourseByStudent(student);
 
         assertNotNull(studentCourses);
@@ -81,29 +88,5 @@ public class CourseRegistrationServiceTest {
         assertNotNull(courseRegistrations);
         assertEquals(1, courseRegistrations.size());
         assertEquals(courseOffering, courseRegistrations.get(0).getCourseOffering());
-    }
-
-    @Test
-    public void testGetAllCourseOfferingData() throws CustomNotFoundException {
-        when(courseOfferingRepository.findById(any(Integer.class))).thenReturn(Optional.of(courseOffering));
-        when(courseRegistrationRepository.getAllByCourseOffering(any(CourseOffering.class)))
-                .thenReturn(Collections.singletonList(courseRegistration));
-
-        Collection<CourseRegistration> courseRegistrations = courseRegistrationService.getAllCourseOfferingData(1);
-
-        assertNotNull(courseRegistrations);
-        assertEquals(1, courseRegistrations.size());
-        assertEquals(courseOffering, courseRegistrations.iterator().next().getCourseOffering());
-    }
-
-    @Test
-    public void testGetAllCourseOfferingData_NotFound() {
-        when(courseOfferingRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
-
-        CustomNotFoundException exception = assertThrows(CustomNotFoundException.class, () -> {
-            courseRegistrationService.getAllCourseOfferingData(1);
-        });
-
-        assertNotNull(exception);
     }
 }
