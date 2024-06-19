@@ -27,4 +27,7 @@ public class Student extends Person {
     @JoinColumn(name = "FacultyAdviserID")
     private Faculty faculty;
 
+    public String getFullName() {
+        return this.getFirstName() + " " + this.getLastName();
+    }
 }
