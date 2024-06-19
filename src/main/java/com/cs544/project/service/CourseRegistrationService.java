@@ -1,23 +1,29 @@
 package com.cs544.project.service;
 
+import com.cs544.project.domain.CourseOffering;
 import com.cs544.project.domain.CourseRegistration;
 import com.cs544.project.domain.Student;
 import com.cs544.project.dto.StudentCourse;
 import com.cs544.project.exception.CustomNotFoundException;
+import com.cs544.project.repository.CourseOfferingRepository;
 import com.cs544.project.repository.CourseRegistrationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class CourseRegistrationService {
     private final CourseRegistrationRepository courseRegistrationRepository;
+    private final CourseOfferingRepository courseOfferingRepository;
 
     @Autowired
-    public CourseRegistrationService(CourseRegistrationRepository courseRegistrationRepository) {
+    public CourseRegistrationService(CourseRegistrationRepository courseRegistrationRepository, CourseOfferingRepository courseOfferingRepository) {
         this.courseRegistrationRepository = courseRegistrationRepository;
+        this.courseOfferingRepository = courseOfferingRepository;
     }
 
     public Collection<StudentCourse> getCourseByStudent(Student student) {
@@ -29,5 +35,15 @@ public class CourseRegistrationService {
     public List<CourseRegistration> getCourseRegistrationByCourseOfferingId(int courseOfferingId)
             throws CustomNotFoundException {
         return courseRegistrationRepository.findCourseRegistrationByCourseOfferingId(courseOfferingId);
+    }
+
+    public Collection<CourseRegistration> getAllCourseOfferingData(int courseOfferingId)
+            throws CustomNotFoundException {
+        Optional<CourseOffering> courseOffering = courseOfferingRepository.findById(courseOfferingId);
+//        if (courseOffering.isEmpty()) {
+//            return;
+//        }
+        Collection<CourseRegistration> courseRegistrations = courseRegistrationRepository.getAllByCourseOffering(courseOffering.get());
+        return courseRegistrations;
     }
 }
