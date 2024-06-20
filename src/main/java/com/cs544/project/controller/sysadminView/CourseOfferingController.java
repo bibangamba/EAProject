@@ -9,6 +9,7 @@ import com.cs544.project.service.CourseOfferingService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ import java.util.List;
 
 @RestController("sys-admin-offerings")
 @RequestMapping("/sys-admin/course-offerings")
+@PreAuthorize("hasRole('SYSADMIN')")
 @Validated
 public class CourseOfferingController {
 
