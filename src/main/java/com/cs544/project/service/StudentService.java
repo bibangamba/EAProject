@@ -55,4 +55,8 @@ public class StudentService {
     public void deleteStudent(int id) {
         studentRepository.deleteById(id);
     }
+
+    public Student getStudentByStudentUserName(String username) {
+        return studentRepository.findByUsername(username);
+    }
 }

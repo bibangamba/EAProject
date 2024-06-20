@@ -49,9 +49,13 @@ public class CourseOfferingController extends ApplicationController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> getCourseOffering() {
+    public ResponseEntity<?> getCourseOffering() throws CustomNotFoundException {
         Person currentPerson = getCurrentPerson();
-        Student student = studentRepository.findFirstByFirstName(currentPerson.getFirstName());
+//        Student student = studentRepository.findFirstByFirstName(currentPerson.getUsername());
+        Student student = studentService.getStudentByStudentUserName(getCurrentPerson().getUsername());
+        System.out.println("###### "+student);
+        System.out.println("###### "+getCurrentPerson().getUsername());
+
         Collection<StudentCourse> studentCourses = courseRegistrationService.getCourseByStudent(student);
         if (studentCourses.isEmpty()) {
             return new ResponseEntity<String>("not found", HttpStatus.OK);
@@ -61,8 +65,7 @@ public class CourseOfferingController extends ApplicationController {
     @GetMapping("/{offeringId}/attendance")
     public ResponseEntity<?> getCourseOfferingAttendance(@PathVariable("offeringId") int offeringId)
             throws CustomNotFoundException {
-        // TODO: to be replaced by session-based student (student currently logged in)
-        Student student = studentService.getAllStudents().getFirst();
+        Student student = studentService.getStudentByStudentUserName(getCurrentPerson().getUsername());
 
         CourseOffering courseOffering = courseOfferingService.getCourseOfferingById(offeringId);
 
