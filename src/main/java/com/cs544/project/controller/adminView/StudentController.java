@@ -6,6 +6,7 @@ import com.cs544.project.domain.Student;
 import com.cs544.project.dto.response.StudentDto;
 import com.cs544.project.exception.CustomNotFoundException;
 import com.cs544.project.repository.CourseRegistrationRepository;
+import com.cs544.project.service.CourseRegistrationService;
 import com.cs544.project.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +24,16 @@ public class StudentController {
     StudentService studentService;
 
     @Autowired
+    CourseRegistrationService courseRegistrationService;
+
+    @Autowired
     CourseRegistrationRepository courseRegistrationRepository;
 
     @GetMapping("/{studentId}")
     public ResponseEntity<?> getStudentsByStudentID(@PathVariable("studentId") String studentId)
             throws CustomNotFoundException {
         Student student = studentService.getStudentByStudentID(studentId);
-        Collection<Course> courses = courseRegistrationRepository.findAllByStudent(student).stream().map(x -> x.getCourseOffering().getCourse()).toList();
+        Collection<Course> courses = courseRegistrationService.findAllCourseByStudent(student);
         StudentDto studentDto = StudentAdapter.INSTANCE.toDto(student, courses);
         return ResponseEntity.ok(studentDto);
     }
