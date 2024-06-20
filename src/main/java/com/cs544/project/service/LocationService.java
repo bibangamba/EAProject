@@ -53,14 +53,14 @@ public class LocationService {
         return locationRepository.save(location);
     }
 
-    public Location updateCreate(Integer id, LocationCreateRequest locationCreateRequest) throws CustomNotFoundException{
+    public Location put(Integer id, LocationCreateRequest locationCreateRequest) throws CustomNotFoundException{
         Location location = getById(id);
         LocationAdapter.INSTANCE.updateEntityWithRequest(locationCreateRequest, location);
         setLocationType(locationCreateRequest.getLocationTypeId(), location);
         return locationRepository.save(location);
     }
 
-    public Location update(Integer id, LocationPatchRequest locationPatchRequest) throws CustomNotFoundException{
+    public Location patch(Integer id, LocationPatchRequest locationPatchRequest) throws CustomNotFoundException{
         Location location = getById(id);
         LocationAdapter.INSTANCE.updateEntityWithRequest(locationPatchRequest, location);
         setLocationType(locationPatchRequest.getLocationTypeId(), location);
