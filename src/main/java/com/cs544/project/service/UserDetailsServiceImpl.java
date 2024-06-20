@@ -20,7 +20,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Person person = personAccountRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("No user found with username: " + username));
-        System.out.println("####################### found user for authentication= " + person);
         return User
                 .withUsername(person.getUsername())
                 .password(person.getPassword())

@@ -19,7 +19,6 @@ import java.util.List;
 
 @RestController("sys-admin-offerings")
 @RequestMapping("/sys-admin/course-offerings")
-@PreAuthorize("hasRole('SYSADMIN')")
 @Validated
 public class CourseOfferingController {
 

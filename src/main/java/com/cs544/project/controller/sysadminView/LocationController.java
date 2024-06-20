@@ -33,7 +33,7 @@ public class LocationController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<?> getById(@PathVariable Integer id) throws  CustomNotFoundException{
+    ResponseEntity<?>   getById(@PathVariable Integer id) throws  CustomNotFoundException{
         Location location =  locationService.getById(id);
         return ResponseEntity.ok(location);
     }

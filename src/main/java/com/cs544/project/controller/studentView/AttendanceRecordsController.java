@@ -3,6 +3,7 @@ package com.cs544.project.controller.studentView;
 import com.cs544.project.controller.ApplicationController;
 import com.cs544.project.domain.AttendanceRecord;
 import com.cs544.project.domain.Student;
+import com.cs544.project.exception.CustomNotFoundException;
 import com.cs544.project.repository.StudentRepository;
 import com.cs544.project.service.AttendanceRecordService;
 import com.cs544.project.service.CourseOfferingService;
@@ -33,16 +34,14 @@ public class AttendanceRecordsController extends ApplicationController {
 
 
     @GetMapping()
-    public ResponseEntity<?> getCourseOffering() {
+    public ResponseEntity<?> getCourseOffering() throws CustomNotFoundException {
         // student should come from the logged-in user
-        Optional<Student> student = Optional.ofNullable(studentRepository.findByUsername(getCurrentPerson().getUsername()));
-        if (student.isEmpty()) {
-            return new ResponseEntity<String>("No Student with Id provided", HttpStatus.OK);
-        }
-        Collection<AttendanceRecord> allAttendanceRecords = attendanceRecordService.getAllAttendanceRecordsByStudent(student.get());
+        Student student = studentRepository.findByUsername(getCurrentPerson().getUsername());
+
+        Collection<AttendanceRecord> allAttendanceRecords = attendanceRecordService.getAllAttendanceRecordsByStudent(student);
         if (allAttendanceRecords.isEmpty()) {
-            return new ResponseEntity<String>("No attendance records has been recorded", HttpStatus.OK);
+            return new ResponseEntity<>("No attendance records has been recorded", HttpStatus.OK);
         }
-        return new ResponseEntity<Collection<AttendanceRecord>>(allAttendanceRecords, HttpStatus.OK);
+        return new ResponseEntity<>(allAttendanceRecords, HttpStatus.OK);
     }
 }
