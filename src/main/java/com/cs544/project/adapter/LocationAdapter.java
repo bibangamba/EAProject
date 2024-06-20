@@ -15,6 +15,7 @@ public interface LocationAdapter {
 
     Location toEntity(LocationDto locationDto);
 
+    LocationCreateRequest toCreateRequest(Location location);
 
     @Mapping(target = "auditData", ignore = true)
     Location toEntity(LocationCreateRequest locationCreateRequest);
