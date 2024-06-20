@@ -14,6 +14,8 @@ public class StudentDto extends PersonDto {
     private FacultyDto faculty;
     private Collection<CourseDto> registeredCourses;
 
+    public StudentDto() {}
+
     public StudentDto(String studentId, String firstName, String lastName) {
         this.studentID = studentId;
         this.setFirstName(firstName);

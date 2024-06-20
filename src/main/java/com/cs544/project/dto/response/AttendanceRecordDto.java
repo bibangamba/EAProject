@@ -12,6 +12,8 @@ public class AttendanceRecordDto {
     private StudentDto student;
     private LocationDto location;
 
+    public AttendanceRecordDto() {}
+
     public AttendanceRecordDto(int id, LocalDateTime scanTime, String studentId, String firstName, String lastName, String locationName) {
         this.id = id;
         this.scanTime = scanTime;
