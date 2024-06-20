@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -25,10 +26,12 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(StudentController.class)
 @Import(ReusableBeansTestConfiguration.class)
+@WithMockUser(username = "bibangamba", roles = "FACULTY")
 public class StudentControllerTest {
 
     @MockBean
@@ -59,7 +62,7 @@ public class StudentControllerTest {
     public void testGetAllStudents() throws Exception {
         when(studentService.getAllStudents()).thenReturn(Arrays.asList(student));
 
-        mockMvc.perform(get("/sys-admin/students"))
+        mockMvc.perform(get("/sys-admin/students").with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].firstName").value(student.getFirstName()))
@@ -70,7 +73,7 @@ public class StudentControllerTest {
     public void testGetStudentById() throws Exception {
         when(studentService.getStudentById(1)).thenReturn(Optional.of(student));
 
-        mockMvc.perform(get("/sys-admin/students/1"))
+        mockMvc.perform(get("/sys-admin/students/1").with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.firstName").value(student.getFirstName()))
@@ -81,7 +84,7 @@ public class StudentControllerTest {
     public void testGetStudentById_NotFound() throws Exception {
         when(studentService.getStudentById(1)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/sys-admin/students/1"))
+        mockMvc.perform(get("/sys-admin/students/1").with(csrf()))
                 .andExpect(status().isNotFound());
     }
 
@@ -89,7 +92,7 @@ public class StudentControllerTest {
     public void testCreateStudent() throws Exception {
         when(studentService.saveStudent(any(Student.class))).thenReturn(student);
 
-        mockMvc.perform(post("/sys-admin/students")
+        mockMvc.perform(post("/sys-admin/students").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"firstName\": \"John\", \"lastName\": \"Doe\"}"))
                 .andExpect(status().isOk())
@@ -101,7 +104,7 @@ public class StudentControllerTest {
     public void testUpdateStudent() throws Exception {
         when(studentService.updateStudent(eq(1), any(Student.class))).thenReturn(student);
 
-        mockMvc.perform(put("/sys-admin/students/1")
+        mockMvc.perform(put("/sys-admin/students/1").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"firstName\": \"John\", \"lastName\": \"Doe\"}"))
                 .andExpect(status().isOk())
@@ -111,7 +114,7 @@ public class StudentControllerTest {
 
     @Test
     public void testDeleteStudent() throws Exception {
-        mockMvc.perform(delete("/sys-admin/students/1"))
+        mockMvc.perform(delete("/sys-admin/students/1").with(csrf()))
                 .andExpect(status().isNoContent());
     }
 }

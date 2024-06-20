@@ -79,6 +79,17 @@ public class CourseRegistrationServiceTest {
     }
 
     @Test
+    public void testGetAllCourseByStudent() {
+        when(courseRegistrationRepository.findAllByStudent(student))
+                .thenReturn(Collections.singletonList(courseRegistration));
+
+        Collection<Course> courses = courseRegistrationService.findAllCourseByStudent(student);
+
+        assertNotNull(courses);
+        assertEquals(1, courses.size());
+    }
+
+    @Test
     public void testGetCourseRegistrationByCourseOfferingId() throws CustomNotFoundException {
         when(courseRegistrationRepository.findCourseRegistrationByCourseOfferingId(any(Integer.class)))
                 .thenReturn(Collections.singletonList(courseRegistration));

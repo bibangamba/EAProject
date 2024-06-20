@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -19,12 +20,14 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @Import(ReusableBeansTestConfiguration.class)
 @WebMvcTest(AttendanceController.class)
+@WithMockUser(username = "bibangamba", roles = "FACULTY")
 public class AttendanceControllerTest {
 
     @Autowired
@@ -42,7 +45,7 @@ public class AttendanceControllerTest {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(new byte[0]);
         when(attendanceRecordService.exportAttendanceToExcel(1L)).thenReturn(byteArrayInputStream);
 
-        mockMvc.perform(get("/admin-view/course-offerings/1/attendance"))
+        mockMvc.perform(get("/admin-view/course-offerings/1/attendance").with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=attendance_" + LocalTime.now().format(DateTimeFormatter.ofPattern("HH.mm")) + ".xlsx"));
     }
@@ -51,7 +54,7 @@ public class AttendanceControllerTest {
     public void testGetAttendanceRecords_InternalServerError() throws Exception {
         when(attendanceRecordService.exportAttendanceToExcel(1L)).thenThrow(new IOException());
 
-        mockMvc.perform(get("/admin-view/course-offerings/1/attendance"))
+        mockMvc.perform(get("/admin-view/course-offerings/1/attendance").with(csrf()))
                 .andExpect(status().isInternalServerError());
     }
 }

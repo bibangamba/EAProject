@@ -37,9 +37,6 @@ public class LocationService {
         return locationRepository.findAll();
     }
 
-    public Collection<Location> getByLocationType(LocationType locationType){
-        return locationRepository.findByLocationType(locationType);
-    }
 
     public Location getById(Integer id) throws CustomNotFoundException{
         Optional<Location> location =  locationRepository.findById(id);
