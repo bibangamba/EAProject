@@ -1,5 +1,6 @@
 package com.cs544.project.domain;
 
+import com.cs544.project.service.DatabaseInitService;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.mapstruct.MapperConfig;
@@ -24,4 +25,10 @@ public class Location {
 
     @Embedded
     private AuditData auditData;
+
+    public static Location getSampleData(){
+        return DatabaseInitService.getLocation1(
+                DatabaseInitService.getLectureHall()
+        );
+    }
 }

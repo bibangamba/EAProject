@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
-@RestController
-@RequestMapping("/sys-admin/location-type")
+//@RestController
+//@RequestMapping("/sys-admin/location-type")
 @Validated
 public class LocationTypeController {
     @Autowired

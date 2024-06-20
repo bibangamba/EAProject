@@ -33,7 +33,7 @@ public class LocationService {
 
 
 
-    public Collection<Location> get(){
+    public Collection<Location> getAll(){
         return locationRepository.findAll();
     }
 
@@ -41,7 +41,7 @@ public class LocationService {
         return locationRepository.findByLocationType(locationType);
     }
 
-    public Location get(Integer id) throws CustomNotFoundException{
+    public Location getById(Integer id) throws CustomNotFoundException{
         Optional<Location> location =  locationRepository.findById(id);
         return location.orElseThrow(() -> new CustomNotFoundException("Could not find locationType with id=:" + id));
     }
@@ -53,22 +53,22 @@ public class LocationService {
         return locationRepository.save(location);
     }
 
-    public Location update(Integer id, LocationCreateRequest locationCreateRequest) throws CustomNotFoundException{
-        Location location = get(id);
+    public Location updateCreate(Integer id, LocationCreateRequest locationCreateRequest) throws CustomNotFoundException{
+        Location location = getById(id);
         LocationAdapter.INSTANCE.updateEntityWithRequest(locationCreateRequest, location);
         setLocationType(locationCreateRequest.getLocationTypeId(), location);
         return locationRepository.save(location);
     }
 
     public Location update(Integer id, LocationPatchRequest locationPatchRequest) throws CustomNotFoundException{
-        Location location = get(id);
+        Location location = getById(id);
         LocationAdapter.INSTANCE.updateEntityWithRequest(locationPatchRequest, location);
         setLocationType(locationPatchRequest.getLocationTypeId(), location);
         return locationRepository.save(location);
     }
 
     public void delete(Integer id) throws CustomNotFoundException{
-        Location location = get(id);
+        Location location = getById(id);
         Collection<AttendanceRecord> attendanceRecords = attendanceRecordRepository.getByLocation(location);
         for(AttendanceRecord attendanceRecord: attendanceRecords){
             attendanceRecord.setLocation(null);
