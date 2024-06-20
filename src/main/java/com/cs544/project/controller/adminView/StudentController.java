@@ -26,9 +26,6 @@ public class StudentController {
     @Autowired
     CourseRegistrationService courseRegistrationService;
 
-    @Autowired
-    CourseRegistrationRepository courseRegistrationRepository;
-
     @GetMapping("/{studentId}")
     public ResponseEntity<?> getStudentsByStudentID(@PathVariable("studentId") String studentId)
             throws CustomNotFoundException {
