@@ -1,5 +1,6 @@
 package com.cs544.project.controller.studentView;
 
+import com.cs544.project.controller.ApplicationController;
 import com.cs544.project.domain.AttendanceRecord;
 import com.cs544.project.domain.Student;
 import com.cs544.project.repository.StudentRepository;
@@ -18,8 +19,8 @@ import java.util.Collection;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/student-view/attendance-records")
-public class AttendanceRecordsController {
+    @RequestMapping("/student-view/attendance-records")
+public class AttendanceRecordsController extends ApplicationController {
     @Autowired
     private StudentRepository studentRepository;
 
@@ -34,7 +35,7 @@ public class AttendanceRecordsController {
     @GetMapping()
     public ResponseEntity<?> getCourseOffering() {
         // student should come from the logged-in user
-        Optional<Student> student = studentRepository.findByStudentID("3");
+        Optional<Student> student = Optional.ofNullable(studentRepository.findByUsername(getCurrentPerson().getUsername()));
         if (student.isEmpty()) {
             return new ResponseEntity<String>("No Student with Id provided", HttpStatus.OK);
         }
