@@ -3,7 +3,9 @@ package com.cs544.project.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @Entity
@@ -22,6 +24,15 @@ public class AttendanceRecord {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "LocationId")
     private Location location;
+
+    public AttendanceRecord() {
+    }
+
+    public AttendanceRecord(LocalDateTime scanTime, Student student, Location location) {
+        this.scanTime = scanTime;
+        this.student = student;
+        this.location = location;
+    }
 
     public boolean isMorningAttendance() {
         int year = scanTime.getYear();

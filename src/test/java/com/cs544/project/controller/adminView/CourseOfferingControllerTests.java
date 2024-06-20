@@ -1,10 +1,10 @@
-package com.cs544.project.controller;
+package com.cs544.project.controller.adminView;
 
 import com.cs544.project.ReusableBeansTestConfiguration;
-import com.cs544.project.controller.adminView.CourseOfferingController;
 import com.cs544.project.domain.Course;
 import com.cs544.project.domain.CourseOffering;
 import com.cs544.project.domain.Faculty;
+import com.cs544.project.exception.CustomNotFoundException;
 import com.cs544.project.service.CourseOfferingService;
 import com.cs544.project.service.CourseRegistrationService;
 import com.cs544.project.service.DatabaseInitService;
@@ -41,19 +41,38 @@ public class CourseOfferingControllerTests {
     private CourseRegistrationService courseRegistrationService; // also required by controller
 
     @Before
-    public void setUp() {
+    public void setUp() throws CustomNotFoundException {
         Course c1 = DatabaseInitService.getCourse1();
         Faculty f1 = DatabaseInitService.getFaculty1();
         CourseOffering courseOffering = DatabaseInitService.getCourseOffering1(c1, f1);
+
         Mockito.when(courseOfferingService.getCourseOfferingsByDate(queryDate))
                 .thenReturn(List.of(courseOffering));
+
+        Mockito.when(courseOfferingService.getCourseOfferingById(1))
+                .thenReturn(courseOffering);
     }
 
     @Test
     public void testGetCourseOfferingsByDate() throws Exception {
-
         mockMvc.perform(
-                get("/admin-view/course-offerings")
+                get("/admin-view/course-offerings/1")
+        ).andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetCourseOfferingsByIdBadRequest() throws Exception {
+        mockMvc.perform(
+                        get("/admin-view/course-offerings?date=2024-06-282")
+                ).andExpect(status().isBadRequest())
+                .andExpect(content().string("{\"ParsingError\":\"Request parameter 'date' must be in " +
+                        "the yyyy-mm-dd format. Received: 2024-06-282\"}"));
+    }
+
+    @Test
+    public void testGetCourseOfferingsByOfferingId() throws Exception {
+        mockMvc.perform(
+                get("/admin-view/course-offerings/1")
                         .param("date", "2024-06-28")
         ).andExpect(status().isOk());
     }
@@ -61,10 +80,9 @@ public class CourseOfferingControllerTests {
     @Test
     public void testGetCourseOfferingsByDateInvalidDate() throws Exception {
         mockMvc.perform(
-                        get("/admin-view/course-offerings")
-                                .param("date", "2024-06-282www")
+                        get("/admin-view/course-offerings/wqe")
                 ).andExpect(status().isBadRequest())
-                .andExpect(content().string("parsingError: 'date' request parameter must be in " +
-                        "the yyyy-mm-dd format. Received: 2024-06-282www"));
+                .andExpect(content().string("{\"IncorrectParameterType\":\"Failed to convert value of " +
+                        "type 'java.lang.String' to required type 'int'; For input string: \\\"wqe\\\"\"}"));
     }
 }
