@@ -87,4 +87,7 @@ public class CourseOfferingControllerTests {
                 .andExpect(content().string("{\"IncorrectParameterType\":\"Failed to convert value of " +
                         "type 'java.lang.String' to required type 'int'; For input string: \\\"wqe\\\"\"}"));
     }
+
 }
+
+

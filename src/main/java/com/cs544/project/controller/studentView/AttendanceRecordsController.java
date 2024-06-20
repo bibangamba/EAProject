@@ -36,7 +36,7 @@ public class AttendanceRecordsController {
         // student should come from the logged-in user
         Optional<Student> student = studentRepository.findByStudentID("3");
         if (student.isEmpty()) {
-            return new ResponseEntity<String>("No Student with Id provided", HttpStatus.OK);
+            return new ResponseEntity<String>("No Student with Id provided", HttpStatus.NOT_FOUND);
         }
         Collection<AttendanceRecord> allAttendanceRecords = attendanceRecordService.getAllAttendanceRecordsByStudent(student.get());
         if (allAttendanceRecords.isEmpty()) {

@@ -42,7 +42,12 @@ public class CourseService {
         return courseRepository.save(course);
     }
 
-    public Course updateCourse(Course course){
+    public Course updateCourse(int id, Course course){
+        if(!courseRepository.existsById(id)){
+            course.setId(id);
+            return courseRepository.save(course);
+        }
+        course.setId(id);
         return courseRepository.save(course);
     }
 

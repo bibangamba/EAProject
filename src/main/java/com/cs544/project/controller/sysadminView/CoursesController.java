@@ -29,9 +29,9 @@ public class CoursesController {
         return ResponseEntity.ok(savedCourse);
     }
 
-    @PatchMapping()
-    ResponseEntity<?> updateCourse(@RequestBody Course course){
-        Course updatedCourse =  courseService.updateCourse(course);
+    @PatchMapping("/{courseId}")
+    ResponseEntity<?> updateCourse(@PathVariable("courseId") int id,@RequestBody Course course){
+        Course updatedCourse =  courseService.updateCourse(id,course);
         return ResponseEntity.ok(updatedCourse);
     }
 
