@@ -56,18 +56,21 @@ public class StudentControllerTests {
     public void testGetStudentsByStudentID_Success() throws Exception {
         Student student = DatabaseInitService.getStudent1(DatabaseInitService.getFaculty1());
         Collection<Course> courses = List.of(DatabaseInitService.getCourse1());
+
         Mockito.when(studentService.getStudentByStudentID("1")).thenReturn(student);
         when(courseRegistrationService.findAllCourseByStudent(student)).thenReturn(courses);
 
         mockMvc.perform(get("/admin-view/students/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("id").value(student.getId()));
+                .andExpect(jsonPath("id").value(student.getId()))
+                .andExpect(jsonPath("registeredCourses").isArray());
     }
 
     @Test
     public void testGetStudentsByStudentID_NotFound() throws Exception {
         Student student = DatabaseInitService.getStudent1(DatabaseInitService.getFaculty1());
         Collection<Course> courses = List.of(DatabaseInitService.getCourse1());
+
         Mockito.when(studentService.getStudentByStudentID("1")).thenThrow(new CustomNotFoundException("Student not found"));
         when(courseRegistrationService.findAllCourseByStudent(student)).thenReturn(courses);
 
