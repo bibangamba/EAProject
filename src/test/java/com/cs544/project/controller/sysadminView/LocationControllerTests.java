@@ -1,9 +1,7 @@
 package com.cs544.project.controller.sysadminView;
 
 import com.cs544.project.ReusableBeansTestConfiguration;
-import com.cs544.project.adapter.CourseOfferingAdapter;
 import com.cs544.project.adapter.LocationAdapter;
-import com.cs544.project.domain.CourseOffering;
 import com.cs544.project.domain.Location;
 import com.cs544.project.dto.request.LocationCreateRequest;
 import com.cs544.project.dto.request.LocationPatchRequest;
@@ -12,10 +10,8 @@ import com.cs544.project.exception.CustomNotFoundException;
 import com.cs544.project.service.DatabaseInitService;
 import com.cs544.project.service.LocationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,10 +20,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.cs544.project.domain.CourseOffering.getCourseOfferingFromRequest;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -158,7 +152,7 @@ public class LocationControllerTests {
         LocationCreateRequest locationCreateRequest = getLocationCreateRequest();
 
         // Mock the service method
-        when(locationService.updateCreate(1, locationCreateRequest)).thenReturn(location);
+        when(locationService.put(1, locationCreateRequest)).thenReturn(location);
 
         // Perform the PUT request and validate the response
         mockMvc.perform(put("/sys-admin/locations/1")
@@ -192,7 +186,7 @@ public class LocationControllerTests {
 
         String jsonRequest = objectMapper.writeValueAsString(locationCreateRequest);
 
-        when(locationService.updateCreate(1, locationCreateRequest)).thenThrow(new CustomNotFoundException("Location Type Not Found"));
+        when(locationService.put(1, locationCreateRequest)).thenThrow(new CustomNotFoundException("Location Type Not Found"));
 
         mockMvc.perform(put("/sys-admin/locations/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -223,7 +217,7 @@ public class LocationControllerTests {
 
         LocationPatchRequest locationPatchRequest = getLocationPatchRequest();
 
-        when(locationService.update(1, locationPatchRequest)).thenReturn(location);
+        when(locationService.patch(1, locationPatchRequest)).thenReturn(location);
 
         mockMvc.perform(patch("/sys-admin/locations/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -234,7 +228,7 @@ public class LocationControllerTests {
                 )));
     }
 
-    private LocationPatchRequest getLocationPatchRequest() {
+    public  LocationPatchRequest getLocationPatchRequest() {
         LocationPatchRequest request = new LocationPatchRequest();
         request.setName("name");
         request.setCapacity(10);
@@ -243,7 +237,7 @@ public class LocationControllerTests {
     }
 
 
-    LocationCreateRequest getLocationCreateRequest(){
+    public  LocationCreateRequest getLocationCreateRequest(){
         LocationCreateRequest locationCreateRequest = new LocationCreateRequest();
         locationCreateRequest.setName("name");
         locationCreateRequest.setCapacity(10);
