@@ -217,18 +217,14 @@ public class LocationControllerTests {
 
     @Test
     public void testPatch_Success() throws Exception {
-        // Create sample location data
         Location location = Location.getSampleData();
         location.setId(1);
         location.getLocationType().setId(1);
 
-        // Create request object
         LocationPatchRequest locationPatchRequest = getLocationPatchRequest();
 
-        // Mock the service method
         when(locationService.update(1, locationPatchRequest)).thenReturn(location);
 
-        // Perform the PATCH request and validate the response
         mockMvc.perform(patch("/sys-admin/locations/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(locationPatchRequest)))
@@ -238,8 +234,6 @@ public class LocationControllerTests {
                 )));
     }
 
-
-    // Method to create a sample LocationPatchRequest object
     private LocationPatchRequest getLocationPatchRequest() {
         LocationPatchRequest request = new LocationPatchRequest();
         request.setName("name");
