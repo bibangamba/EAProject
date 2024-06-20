@@ -1,7 +1,6 @@
 package com.cs544.project.controller.sysadminView;
 
 
-import com.cs544.project.adapter.CourseOfferingAdapter;
 import com.cs544.project.adapter.LocationAdapter;
 import com.cs544.project.domain.Location;
 import com.cs544.project.dto.request.LocationCreateRequest;
@@ -10,7 +9,6 @@ import com.cs544.project.dto.response.LocationDto;
 import com.cs544.project.exception.CustomNotFoundException;
 import com.cs544.project.service.LocationService;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,14 +47,14 @@ public class LocationController {
 
     @PutMapping("/{id}")
     public ResponseEntity<LocationDto> put(@PathVariable("id") Integer id, @Valid @RequestBody LocationCreateRequest locationCreateRequest) throws CustomNotFoundException {
-        Location savedLocation = locationService.updateCreate(id, locationCreateRequest);
+        Location savedLocation = locationService.put(id, locationCreateRequest);
         return ResponseEntity.created(URI.create("/sys-admin/locations/" + savedLocation.getId()))
                 .body(LocationAdapter.INSTANCE.toDto(savedLocation));
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<LocationDto> patch(@PathVariable("id") Integer id, @Valid @RequestBody LocationPatchRequest locationPatchRequest) throws CustomNotFoundException {
-        Location savedLocation = locationService.update(id, locationPatchRequest);
+        Location savedLocation = locationService.patch(id, locationPatchRequest);
         return ResponseEntity.created(URI.create("/sys-admin/locations/" + savedLocation.getId()))
                 .body(LocationAdapter.INSTANCE.toDto(savedLocation));
     }
