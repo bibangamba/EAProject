@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 
 @Configuration
 public class ReusableBeansTestConfiguration {
@@ -20,6 +22,11 @@ public class ReusableBeansTestConfiguration {
 
     @MockBean
     private PasswordEncoder passwordEncoder;
+
+    @MockBean
+    private ClientRegistrationRepository clientRegistrationRepository;
+    @MockBean
+    private JwtDecoder jwtDecoder;
 
     @Bean
     public DatabaseInitService databaseInitService() {

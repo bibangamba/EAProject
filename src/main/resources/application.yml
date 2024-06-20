@@ -25,7 +25,12 @@ spring:
         registration:
           google:
             client-id: ${GOOGLE_OAUTH_CLIENT_ID}
-            client-secret: ${GOOGLE_OAUTH_CLIENT_SECRET }
+            client-secret: ${GOOGLE_OAUTH_CLIENT_SECRET}
+            scope: openid,profile,email
+      resourceserver:
+        jwt:
+          issuer-uri: https://accounts.google.com
+          jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
   artemis:
     broker-url: ${ARTEMIS_BROKER_URL}
     user: ${ARTEMIS_USER}

@@ -27,7 +27,8 @@ public class SecurityConfig {
                     auth.requestMatchers("/admin-view/**").hasAnyRole(Role.SYSADMIN.name(), Role.FACULTY.name(), Role.STAFF.name());
                     auth.anyRequest().authenticated();
                 })
-//                .oauth2Login(Customizer.withDefaults())
+                .oauth2Login(Customizer.withDefaults())
+                .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
                 .build();
