@@ -42,7 +42,7 @@ public class AttendanceControllerTest {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(new byte[0]);
         when(attendanceRecordService.exportAttendanceToExcel(1L)).thenReturn(byteArrayInputStream);
 
-        mockMvc.perform(get("/admin-view/courseofferings/1/attendance"))
+        mockMvc.perform(get("/admin-view/course-offerings/1/attendance"))
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=attendance_" + LocalTime.now().format(DateTimeFormatter.ofPattern("HH.mm")) + ".xlsx"));
     }
@@ -51,7 +51,7 @@ public class AttendanceControllerTest {
     public void testGetAttendanceRecords_InternalServerError() throws Exception {
         when(attendanceRecordService.exportAttendanceToExcel(1L)).thenThrow(new IOException());
 
-        mockMvc.perform(get("/admin-view/courseofferings/1/attendance"))
+        mockMvc.perform(get("/admin-view/course-offerings/1/attendance"))
                 .andExpect(status().isInternalServerError());
     }
 }

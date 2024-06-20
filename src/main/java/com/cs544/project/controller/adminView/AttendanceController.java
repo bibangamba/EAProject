@@ -24,7 +24,7 @@ public class AttendanceController {
     @Autowired
     private AttendanceRecordService attendanceRecordService;
 
-    @GetMapping("/courseofferings/{offeringId}/attendance")
+    @GetMapping("/course-offerings/{offeringId}/attendance")
     public ResponseEntity<Resource> getAttendanceRecords(@PathVariable Long offeringId) {
         try {
             ByteArrayInputStream in = attendanceRecordService.exportAttendanceToExcel(offeringId);
