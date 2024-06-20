@@ -46,21 +46,21 @@ public class LocationController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LocationDto> put(@PathVariable("id") Integer id, @Valid @RequestBody LocationCreateRequest locationCreateRequest) throws CustomNotFoundException {
+    public ResponseEntity<LocationDto> put(@PathVariable Integer id, @Valid @RequestBody LocationCreateRequest locationCreateRequest) throws CustomNotFoundException {
         Location savedLocation = locationService.put(id, locationCreateRequest);
         return ResponseEntity.created(URI.create("/sys-admin/locations/" + savedLocation.getId()))
                 .body(LocationAdapter.INSTANCE.toDto(savedLocation));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<LocationDto> patch(@PathVariable("id") Integer id, @Valid @RequestBody LocationPatchRequest locationPatchRequest) throws CustomNotFoundException {
+    public ResponseEntity<LocationDto> patch(@PathVariable Integer id, @Valid @RequestBody LocationPatchRequest locationPatchRequest) throws CustomNotFoundException {
         Location savedLocation = locationService.patch(id, locationPatchRequest);
         return ResponseEntity.created(URI.create("/sys-admin/locations/" + savedLocation.getId()))
                 .body(LocationAdapter.INSTANCE.toDto(savedLocation));
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<?> delete(@PathVariable("id") Integer id) throws CustomNotFoundException {
+    ResponseEntity<?> delete(@PathVariable Integer id) throws CustomNotFoundException {
         locationService.delete(id);
         return  ResponseEntity.noContent().build();
     }

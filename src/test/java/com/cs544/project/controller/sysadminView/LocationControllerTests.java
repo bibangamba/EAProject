@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -27,9 +28,11 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 @RunWith(SpringRunner.class)
 @WebMvcTest(LocationController.class)
 @Import(ReusableBeansTestConfiguration.class)
+@WithMockUser(username = "bibangamba", roles = "SYSADMIN")
 public class LocationControllerTests {
     @Autowired
     private MockMvc mockMvc;
@@ -83,7 +86,7 @@ public class LocationControllerTests {
 
         when(locationService.create(locationCreateRequest)).thenReturn(location);
 
-        mockMvc.perform(post("/sys-admin/locations")
+        mockMvc.perform(post("/sys-admin/locations").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(locationCreateRequest)))
                 .andExpect(status().isCreated())
@@ -101,7 +104,7 @@ public class LocationControllerTests {
 
         String jsonRequest = objectMapper.writeValueAsString(locationCreateRequest);
 
-        mockMvc.perform(post("/sys-admin/locations")
+        mockMvc.perform(post("/sys-admin/locations").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().isBadRequest())
@@ -119,7 +122,7 @@ public class LocationControllerTests {
 
         when(locationService.create(locationCreateRequest)).thenThrow(new CustomNotFoundException("Location Type Not Found"));
 
-        mockMvc.perform(post("/sys-admin/locations")
+        mockMvc.perform(post("/sys-admin/locations").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().isNotFound())
@@ -134,7 +137,7 @@ public class LocationControllerTests {
 
         String jsonRequest = objectMapper.writeValueAsString(locationCreateRequest);
 
-        mockMvc.perform(post("/sys-admin/locations")
+        mockMvc.perform(post("/sys-admin/locations").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().isBadRequest())
@@ -155,7 +158,7 @@ public class LocationControllerTests {
         when(locationService.put(1, locationCreateRequest)).thenReturn(location);
 
         // Perform the PUT request and validate the response
-        mockMvc.perform(put("/sys-admin/locations/1")
+        mockMvc.perform(put("/sys-admin/locations/1").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(locationCreateRequest)))
                 .andExpect(status().isCreated())
@@ -172,7 +175,7 @@ public class LocationControllerTests {
 
         String jsonRequest = objectMapper.writeValueAsString(locationCreateRequest);
 
-        mockMvc.perform(put("/sys-admin/locations/1")
+        mockMvc.perform(put("/sys-admin/locations/1").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().isBadRequest())
@@ -188,7 +191,7 @@ public class LocationControllerTests {
 
         when(locationService.put(1, locationCreateRequest)).thenThrow(new CustomNotFoundException("Location Type Not Found"));
 
-        mockMvc.perform(put("/sys-admin/locations/1")
+        mockMvc.perform(put("/sys-admin/locations/1").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().isNotFound())
@@ -197,14 +200,14 @@ public class LocationControllerTests {
 
     @Test
     public void testDelete_Success() throws Exception {
-        mockMvc.perform(delete("/sys-admin/locations/1"))
+        mockMvc.perform(delete("/sys-admin/locations/1").with(csrf()))
                 .andExpect(status().isNoContent());
     }
 
     @Test
     public void testDelete_InvalidIdNotFound() throws Exception {
         doThrow(new CustomNotFoundException("Location not found")).when(locationService).delete(1);
-        mockMvc.perform(delete("/sys-admin/locations/1"))
+        mockMvc.perform(delete("/sys-admin/locations/1").with(csrf()))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.ErrorMessage").value("Location not found"));
     }
@@ -219,7 +222,7 @@ public class LocationControllerTests {
 
         when(locationService.patch(1, locationPatchRequest)).thenReturn(location);
 
-        mockMvc.perform(patch("/sys-admin/locations/1")
+        mockMvc.perform(patch("/sys-admin/locations/1").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(locationPatchRequest)))
                 .andExpect(status().isCreated())

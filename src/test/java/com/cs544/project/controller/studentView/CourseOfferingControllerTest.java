@@ -6,6 +6,7 @@ import com.cs544.project.domain.CourseOffering;
 import com.cs544.project.domain.Faculty;
 import com.cs544.project.domain.Student;
 import com.cs544.project.exception.CustomNotFoundException;
+import com.cs544.project.repository.PersonAccountRepository;
 import com.cs544.project.repository.StudentRepository;
 import com.cs544.project.service.*;
 import org.junit.Before;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +29,13 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 @RunWith(SpringRunner.class)
 @WebMvcTest(CourseOfferingController.class)
 @Import(ReusableBeansTestConfiguration.class)
+@WithMockUser(username = "bibangamba", roles = "FACULTY")
 public class CourseOfferingControllerTest {
 
     @Autowired
@@ -48,6 +52,9 @@ public class CourseOfferingControllerTest {
 
     @MockBean
     private StudentService studentService;
+
+    @MockBean
+    private PersonAccountRepository personAccountRepository;
 
     @MockBean
     private AttendanceRecordService attendanceRecordService;
@@ -100,7 +107,7 @@ public class CourseOfferingControllerTest {
         when(attendanceRecordService.getAttendanceRecords(any(Student.class), any(LocalDateTime.class), any(LocalDateTime.class)))
                 .thenReturn(Collections.emptyList());
 
-        mockMvc.perform(get("/student-view/course-offerings/1/attendance"))
+        mockMvc.perform(get("/student-view/course-offerings/1/attendance").with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
