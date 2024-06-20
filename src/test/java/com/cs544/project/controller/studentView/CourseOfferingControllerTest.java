@@ -6,6 +6,7 @@ import com.cs544.project.domain.CourseOffering;
 import com.cs544.project.domain.Faculty;
 import com.cs544.project.domain.Student;
 import com.cs544.project.exception.CustomNotFoundException;
+import com.cs544.project.repository.PersonAccountRepository;
 import com.cs544.project.repository.StudentRepository;
 import com.cs544.project.service.*;
 import org.junit.Before;
@@ -51,6 +52,9 @@ public class CourseOfferingControllerTest {
 
     @MockBean
     private StudentService studentService;
+
+    @MockBean
+    private PersonAccountRepository personAccountRepository;
 
     @MockBean
     private AttendanceRecordService attendanceRecordService;
