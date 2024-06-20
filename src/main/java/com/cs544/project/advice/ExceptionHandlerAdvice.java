@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class ExceptionHandlerAdvice {
     @ExceptionHandler(CustomNotFoundException.class)
     public ResponseEntity<?> handleCustomNotFoundException(CustomNotFoundException e) {
         Map<String, String> errorMap = new HashMap<>();
-        errorMap.put("errorMessage", e.getMessage());
+        errorMap.put("ErrorMessage", e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMap);
     }
 
@@ -47,11 +48,16 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Map<String, String>> handleParsingExceptions(HttpMessageNotReadableException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("parsingError", ex.getLocalizedMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("ParsingError", ex.getLocalizedMessage()));
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<Map<String, String>> handleMissingParametersExceptions(MissingServletRequestParameterException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("missingParameter", ex.getLocalizedMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("MissingParameter", ex.getLocalizedMessage()));
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<Map<String, String>> handleMissingParametersExceptions(MethodArgumentTypeMismatchException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("IncorrectParameterType", ex.getLocalizedMessage()));
     }
 }

@@ -1,10 +1,10 @@
 package com.cs544.project.utils.validators;
 
-import com.cs544.project.dto.request.CreateCourseOfferingRequest;
+import com.cs544.project.dto.request.CourseOfferingRequest;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class DateRangeValidator implements ConstraintValidator<ValidDateRange, CreateCourseOfferingRequest> {
+public class DateRangeValidator implements ConstraintValidator<ValidDateRange, CourseOfferingRequest> {
 
     private static void updateViolationMessage(ConstraintValidatorContext context, String field, String message) {
         context.disableDefaultConstraintViolation();
@@ -19,7 +19,7 @@ public class DateRangeValidator implements ConstraintValidator<ValidDateRange, C
     }
 
     @Override
-    public boolean isValid(CreateCourseOfferingRequest request, ConstraintValidatorContext context) {
+    public boolean isValid(CourseOfferingRequest request, ConstraintValidatorContext context) {
         if (request.getStartDate() == null || request.getEndDate() == null) {
             updateViolationMessage(context, "startDate & endDate",
                     "startDate and endDate must be provided and cannot be null");
@@ -30,6 +30,6 @@ public class DateRangeValidator implements ConstraintValidator<ValidDateRange, C
             return false;
         }
 
-        return false;
+        return true;
     }
 }
