@@ -31,10 +31,11 @@ public class CourseOfferingController {
     @GetMapping()
     public ResponseEntity<?> getCourseOfferings(@RequestParam("date") String dateYMD) {
         LocalDate queryDate;
-        try{
+        try {
             queryDate = LocalDate.parse(dateYMD, DateTimeFormatter.ISO_DATE);
-        }catch (DateTimeParseException e){
-            return ResponseEntity.badRequest().body("parsingError: 'date' request parameter must be in the yyyy-mm-dd format. Received: "+dateYMD);
+        } catch (DateTimeParseException e) {
+            return ResponseEntity.badRequest().body(Map.of("ParsingError", "Request parameter 'date' must " +
+                    "be in the yyyy-mm-dd format. Received: " + dateYMD));
         }
 
         Collection<CourseOffering> offeringsByDate = courseOfferingService.getCourseOfferingsByDate(queryDate);
@@ -47,7 +48,7 @@ public class CourseOfferingController {
     @GetMapping("/{offeringId}")
     public ResponseEntity<?> getCourseOfferingsById(@PathVariable("offeringId") int offeringId)
             throws CustomNotFoundException {
-        Collection<CourseRegistration>  courseOfferingData = courseRegistrationService.getAllCourseOfferingData(offeringId);
+        Collection<CourseRegistration> courseOfferingData = courseRegistrationService.getAllCourseOfferingData(offeringId);
         return ResponseEntity.ok(courseOfferingData);
     }
 }

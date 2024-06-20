@@ -2,6 +2,7 @@ package com.cs544.project.dto.request;
 
 import com.cs544.project.domain.CourseOfferingType;
 import com.cs544.project.utils.validators.ValidDateRange;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Max;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 
 @Data
 @ValidDateRange
-public class CreateCourseOfferingRequest {
+public class CourseOfferingRequest {
     @NotNull(message = "credits is a required attribute")
     @Min(value = 1, message = "credits must be at least 1")
     @Max(value = 8, message = "credits cannot be greater than 8")
@@ -30,10 +31,12 @@ public class CreateCourseOfferingRequest {
 
     @NotNull(message = "startDate is a required field")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
     @NotNull(message = "endDate is a required field")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     @NotNull(message = "type  can only be one of [PART_TIME, ONLINE, FULL_TIME]")

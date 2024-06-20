@@ -2,7 +2,7 @@ package com.cs544.project.controller.sysadminView;
 
 import com.cs544.project.adapter.CourseOfferingAdapter;
 import com.cs544.project.domain.CourseOffering;
-import com.cs544.project.dto.request.CreateCourseOfferingRequest;
+import com.cs544.project.dto.request.CourseOfferingRequest;
 import com.cs544.project.dto.response.CourseOfferingDto;
 import com.cs544.project.exception.CustomNotFoundException;
 import com.cs544.project.service.CourseOfferingService;
@@ -45,10 +45,10 @@ public class CourseOfferingController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> addCourseOffering(@RequestBody @Valid CreateCourseOfferingRequest createCourseOfferingRequest)
+    public ResponseEntity<?> addCourseOffering(@RequestBody @Valid CourseOfferingRequest courseOfferingRequest)
             throws CustomNotFoundException {
 
-        CourseOffering courseOffering = courseOfferingService.createCourseOffering(createCourseOfferingRequest);
+        CourseOffering courseOffering = courseOfferingService.createCourseOffering(courseOfferingRequest);
 
         return ResponseEntity.created(URI.create("/sys-admin/course-offerings/" + courseOffering.getId()))
                 .body(CourseOfferingAdapter.INSTANCE.toDto(courseOffering));
@@ -56,12 +56,13 @@ public class CourseOfferingController {
 
     @PutMapping("/{offeringId}")
     public ResponseEntity<?> updateCourseOffering(@PathVariable int offeringId,
-                                                  @RequestBody @Valid CreateCourseOfferingRequest createCourseOfferingRequest)
+                                                  @RequestBody @Valid CourseOfferingRequest courseOfferingRequest)
             throws CustomNotFoundException {
 
-        CourseOffering courseOffering = courseOfferingService.updateCourseOfferingById(offeringId, createCourseOfferingRequest);
+        CourseOffering courseOffering = courseOfferingService.updateCourseOfferingById(offeringId, courseOfferingRequest);
 
-        return ResponseEntity.ok(CourseOfferingAdapter.INSTANCE.toDto(courseOffering));
+        return ResponseEntity.created(URI.create("/sys-admin/course-offerings/" + offeringId))
+                .body(CourseOfferingAdapter.INSTANCE.toDto(courseOffering));
     }
 
     @DeleteMapping("/{courseOfferingId}")

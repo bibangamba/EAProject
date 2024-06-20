@@ -3,7 +3,7 @@ package com.cs544.project.service;
 import com.cs544.project.domain.Course;
 import com.cs544.project.domain.CourseOffering;
 import com.cs544.project.domain.Faculty;
-import com.cs544.project.dto.request.CreateCourseOfferingRequest;
+import com.cs544.project.dto.request.CourseOfferingRequest;
 import com.cs544.project.exception.CustomNotFoundException;
 import com.cs544.project.repository.CourseOfferingRepository;
 import jakarta.validation.Valid;
@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
+
+import static com.cs544.project.domain.CourseOffering.getCourseOfferingFromRequest;
 
 @Service
 public class CourseOfferingService {
@@ -47,33 +49,21 @@ public class CourseOfferingService {
         courseOfferingRepository.deleteById(courseOfferingId);
     }
 
-    public CourseOffering createCourseOffering(@Valid CreateCourseOfferingRequest createCourseOfferingRequest) throws CustomNotFoundException {
-        Course course = courseService.getCourseById(createCourseOfferingRequest.getCourseId());
-        Faculty faculty = facultyService.getFacultyById(createCourseOfferingRequest.getFacultyId());
-        CourseOffering courseOffering = mapToCourseOffering(new CourseOffering(), createCourseOfferingRequest, course, faculty);
+    public CourseOffering createCourseOffering(@Valid CourseOfferingRequest courseOfferingRequest) throws CustomNotFoundException {
+        Course course = courseService.getCourseById(courseOfferingRequest.getCourseId());
+        Faculty faculty = facultyService.getFacultyById(courseOfferingRequest.getFacultyId());
+        CourseOffering courseOffering = getCourseOfferingFromRequest(new CourseOffering(), courseOfferingRequest, course, faculty);
 
         return courseOfferingRepository.save(courseOffering);
     }
 
 
-    private CourseOffering mapToCourseOffering(CourseOffering offering, CreateCourseOfferingRequest request, Course course, Faculty faculty) {
-        offering.setCredits(request.getCredits());
-        offering.setRoom(request.getRoom());
-        offering.setCapacity(request.getCapacity());
-        offering.setStartDate(request.getStartDate());
-        offering.setEndDate(request.getEndDate());
-        offering.setCourseOfferingType(request.getType());
-        offering.setCourse(course);
-        offering.setFaculty(faculty);
-        return offering;
-    }
-
-    public CourseOffering updateCourseOfferingById(int offeringId, CreateCourseOfferingRequest createCourseOfferingRequest) throws CustomNotFoundException {
-        Course course = courseService.getCourseById(createCourseOfferingRequest.getCourseId());
-        Faculty faculty = facultyService.getFacultyById(createCourseOfferingRequest.getFacultyId());
+    public CourseOffering updateCourseOfferingById(int offeringId, CourseOfferingRequest courseOfferingRequest) throws CustomNotFoundException {
+        Course course = courseService.getCourseById(courseOfferingRequest.getCourseId());
+        Faculty faculty = facultyService.getFacultyById(courseOfferingRequest.getFacultyId());
         CourseOffering courseOffering = this.getCourseOfferingById(offeringId);
 
-        mapToCourseOffering(courseOffering, createCourseOfferingRequest, course, faculty);
+        getCourseOfferingFromRequest(courseOffering, courseOfferingRequest, course, faculty);
 
         return courseOfferingRepository.save(courseOffering);
 

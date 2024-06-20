@@ -1,5 +1,6 @@
 package com.cs544.project.domain;
 
+import com.cs544.project.dto.request.CourseOfferingRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -97,4 +98,17 @@ public class CourseOffering {
         }
         return dateToSessions;
     }
+
+    public static CourseOffering getCourseOfferingFromRequest(CourseOffering offering, CourseOfferingRequest request, Course course, Faculty faculty) {
+        offering.setCredits(request.getCredits());
+        offering.setRoom(request.getRoom());
+        offering.setCapacity(request.getCapacity());
+        offering.setStartDate(request.getStartDate());
+        offering.setEndDate(request.getEndDate());
+        offering.setCourseOfferingType(request.getType());
+        offering.setCourse(course);
+        offering.setFaculty(faculty);
+        return offering;
+    }
+
 }
