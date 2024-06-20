@@ -3,19 +3,20 @@ package com.cs544.project.controller.sysadminView;
 
 import com.cs544.project.adapter.LocationAdapter;
 import com.cs544.project.domain.Location;
-import com.cs544.project.domain.LocationType;
 import com.cs544.project.dto.request.LocationCreateRequest;
 import com.cs544.project.dto.request.LocationPatchRequest;
+import com.cs544.project.dto.response.LocationDto;
 import com.cs544.project.exception.CustomNotFoundException;
 import com.cs544.project.service.LocationService;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.net.URI;
 import java.util.Collection;
 
 @RestController("sys-admin-location")
@@ -27,13 +28,13 @@ public class LocationController {
 
     @GetMapping()
     ResponseEntity<?> getAll(){
-        Collection<Location> locations =  locationService.get();
+        Collection<Location> locations =  locationService.getAll();
         return ResponseEntity.ok(locations);
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<?> get(@PathVariable Integer id) throws  CustomNotFoundException{
-        Location location =  locationService.get(id);
+    ResponseEntity<?> getById(@PathVariable Integer id) throws  CustomNotFoundException{
+        Location location =  locationService.getById(id);
         return ResponseEntity.ok(location);
     }
 
@@ -41,24 +42,26 @@ public class LocationController {
     ResponseEntity<?> add(@Valid @RequestBody LocationCreateRequest locationCreateRequest) throws CustomNotFoundException {
         Location savedLocation =  locationService.create(locationCreateRequest);
 
-        return ResponseEntity.ok(LocationAdapter.INSTANCE.toDto(savedLocation));
+        return ResponseEntity.status(HttpStatus.CREATED).body(LocationAdapter.INSTANCE.toDto(savedLocation));
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<?> add(@Valid @RequestBody LocationCreateRequest locationCreateRequest, @PathParam("id") Integer id) throws CustomNotFoundException {
-        Location savedLocation =  locationService.update(id, locationCreateRequest);
-        return ResponseEntity.ok(LocationAdapter.INSTANCE.toDto(savedLocation));
+    public ResponseEntity<LocationDto> put(@PathVariable("id") Integer id, @Valid @RequestBody LocationCreateRequest locationCreateRequest) throws CustomNotFoundException {
+        Location savedLocation = locationService.put(id, locationCreateRequest);
+        return ResponseEntity.created(URI.create("/sys-admin/locations/" + savedLocation.getId()))
+                .body(LocationAdapter.INSTANCE.toDto(savedLocation));
     }
 
     @PatchMapping("/{id}")
-    ResponseEntity<?> update(@Valid @RequestBody  LocationPatchRequest locationPatchRequest, @PathParam("id") Integer id) throws  CustomNotFoundException{
-        Location addedLocation =  locationService.update(id, locationPatchRequest);
-        return ResponseEntity.ok(LocationAdapter.INSTANCE.toDto(addedLocation));
+    public ResponseEntity<LocationDto> patch(@PathVariable("id") Integer id, @Valid @RequestBody LocationPatchRequest locationPatchRequest) throws CustomNotFoundException {
+        Location savedLocation = locationService.patch(id, locationPatchRequest);
+        return ResponseEntity.created(URI.create("/sys-admin/locations/" + savedLocation.getId()))
+                .body(LocationAdapter.INSTANCE.toDto(savedLocation));
     }
 
     @DeleteMapping("/{id}")
     ResponseEntity<?> delete(@PathVariable("id") Integer id) throws CustomNotFoundException {
         locationService.delete(id);
-        return (ResponseEntity<?>) ResponseEntity.ok("Deleted");
+        return  ResponseEntity.noContent().build();
     }
 }

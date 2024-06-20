@@ -24,11 +24,11 @@ public class AttendanceController {
     @Autowired
     private AttendanceRecordService attendanceRecordService;
 
-    @GetMapping("/courseofferings/{offeringId}/attendance")
+    @GetMapping("/course-offerings/{offeringId}/attendance")
     public ResponseEntity<Resource> getAttendanceRecords(@PathVariable Long offeringId) {
         try {
             ByteArrayInputStream in = attendanceRecordService.exportAttendanceToExcel(offeringId);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH.mm.nnn");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH.mm");
             LocalTime today = LocalTime.now();
             String timeString = today.format(formatter);
             HttpHeaders headers = new HttpHeaders();

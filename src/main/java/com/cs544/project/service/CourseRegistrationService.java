@@ -1,5 +1,6 @@
 package com.cs544.project.service;
 
+import com.cs544.project.domain.Course;
 import com.cs544.project.domain.CourseOffering;
 import com.cs544.project.domain.CourseRegistration;
 import com.cs544.project.domain.Student;
@@ -24,6 +25,10 @@ public class CourseRegistrationService {
     public CourseRegistrationService(CourseRegistrationRepository courseRegistrationRepository, CourseOfferingRepository courseOfferingRepository) {
         this.courseRegistrationRepository = courseRegistrationRepository;
         this.courseOfferingRepository = courseOfferingRepository;
+    }
+
+    public Collection<Course> findAllCourseByStudent(Student student) {
+        return courseRegistrationRepository.findAllByStudent(student).stream().map(x -> x.getCourseOffering().getCourse()).toList();
     }
 
     public Collection<StudentCourse> getCourseByStudent(Student student) {
