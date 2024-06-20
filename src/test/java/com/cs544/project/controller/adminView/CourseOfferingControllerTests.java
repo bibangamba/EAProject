@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -29,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(CourseOfferingController.class)
 @Import(ReusableBeansTestConfiguration.class)
+@WithMockUser(username = "bibangamba", roles = "FACULTY")
 public class CourseOfferingControllerTests {
     private final LocalDate queryDate = LocalDate.of(2024, 6, 28);
     @MockBean
@@ -56,12 +58,13 @@ public class CourseOfferingControllerTests {
     @Test
     public void testGetCourseOfferingsByDate() throws Exception {
         mockMvc.perform(
-                get("/admin-view/course-offerings/1")
+                get("/admin-view/course-offerings")
+                        .param("date", "2024-06-28")
         ).andExpect(status().isOk());
     }
 
     @Test
-    public void testGetCourseOfferingsByIdBadRequest() throws Exception {
+    public void testGetCourseOfferingsByDateBadRequest() throws Exception {
         mockMvc.perform(
                         get("/admin-view/course-offerings?date=2024-06-282")
                 ).andExpect(status().isBadRequest())
@@ -73,12 +76,11 @@ public class CourseOfferingControllerTests {
     public void testGetCourseOfferingsByOfferingId() throws Exception {
         mockMvc.perform(
                 get("/admin-view/course-offerings/1")
-                        .param("date", "2024-06-28")
         ).andExpect(status().isOk());
     }
 
     @Test
-    public void testGetCourseOfferingsByDateInvalidDate() throws Exception {
+    public void testGetCourseOfferingsByIdInvalidType() throws Exception {
         mockMvc.perform(
                         get("/admin-view/course-offerings/wqe")
                 ).andExpect(status().isBadRequest())

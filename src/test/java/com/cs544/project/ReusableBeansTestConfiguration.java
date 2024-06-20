@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class ReusableBeansTestConfiguration {
@@ -16,6 +17,9 @@ public class ReusableBeansTestConfiguration {
 
     @MockBean
     private JmsTemplate jmsTemplate;
+
+    @MockBean
+    private PasswordEncoder passwordEncoder;
 
     @Bean
     public DatabaseInitService databaseInitService() {

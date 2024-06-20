@@ -7,6 +7,7 @@ import com.cs544.project.domain.Faculty;
 import com.cs544.project.dto.request.CourseOfferingRequest;
 import com.cs544.project.exception.CustomNotFoundException;
 import com.cs544.project.repository.CourseOfferingRepository;
+import com.cs544.project.security.SecurityConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
@@ -45,7 +47,7 @@ public class CourseOfferingServiceTests {
         Course course1 = DatabaseInitService.getCourse1();
         Faculty faculty1 = DatabaseInitService.getFaculty1();
         CourseOffering courseOffering = DatabaseInitService.getCourseOffering1(course1, faculty1);
-        CourseOffering courseOffering2 = DatabaseInitService.getCourseOffering2(DatabaseInitService.getCourse2(course1), DatabaseInitService.getFaculty2());
+        CourseOffering courseOffering2 = DatabaseInitService.getCourseOffering2(DatabaseInitService.getCourse2(course1), DatabaseInitService.getFaculty2SysAdmin());
 
         // Mock responses for courseOfferingRepository
         Mockito.when(courseOfferingRepository.findCourseOfferingByDate(queryDate)).thenReturn(List.of(courseOffering));
@@ -61,7 +63,7 @@ public class CourseOfferingServiceTests {
 
         // Mock responses for facultyService
         Mockito.when(facultyService.getFacultyById(1)).thenReturn(DatabaseInitService.getFaculty1());
-        Mockito.when(facultyService.getFacultyById(2)).thenReturn(DatabaseInitService.getFaculty2());
+        Mockito.when(facultyService.getFacultyById(2)).thenReturn(DatabaseInitService.getFaculty2SysAdmin());
     }
 
     @Test
@@ -167,6 +169,7 @@ public class CourseOfferingServiceTests {
 
     @TestConfiguration
     class CourseOfferingServiceTestContextConfiguration {
+
         @Bean
         public CourseOfferingService courseOfferingService() {
             return new CourseOfferingService(courseOfferingRepository, courseService, facultyService);

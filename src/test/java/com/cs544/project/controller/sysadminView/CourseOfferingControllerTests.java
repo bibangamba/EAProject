@@ -2,7 +2,6 @@ package com.cs544.project.controller.sysadminView;
 
 import com.cs544.project.ReusableBeansTestConfiguration;
 import com.cs544.project.adapter.CourseOfferingAdapter;
-import com.cs544.project.controller.sysadminView.CourseOfferingController;
 import com.cs544.project.domain.Course;
 import com.cs544.project.domain.CourseOffering;
 import com.cs544.project.domain.Faculty;
@@ -21,14 +20,20 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 import static com.cs544.project.domain.CourseOffering.getCourseOfferingFromRequest;
 import static com.cs544.project.domain.CourseOfferingType.FULL_TIME;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,6 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(CourseOfferingController.class)
 @Import(ReusableBeansTestConfiguration.class)
+@WithMockUser(username = "bibangamba", roles = "SYSADMIN")
 public class CourseOfferingControllerTests {
     private final LocalDate queryDate = LocalDate.of(2024, 6, 28);
     private final LocalDate startDate = LocalDate.of(2024, 2, 18);
@@ -133,6 +139,7 @@ public class CourseOfferingControllerTests {
         createdCourseOffering.setId(1);
 
         mockMvc.perform(post("/sys-admin/course-offerings")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(getCourseOfferingRequest())))
                 .andExpect(status().isCreated())
@@ -147,7 +154,17 @@ public class CourseOfferingControllerTests {
         CourseOfferingRequest offeringRequest = getCourseOfferingRequest();
         offeringRequest.setEndDate(earlierEndDate);
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // Get the roles
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        List<String> roles = authorities.stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList();
+
         mockMvc.perform(post("/sys-admin/course-offerings")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(offeringRequest)))
                 .andExpect(status().isBadRequest())
@@ -162,6 +179,7 @@ public class CourseOfferingControllerTests {
         String editedJsonRequest = jsonRequest.replace("2024-02-18", "2024-02-18fasdg");
 
         mockMvc.perform(post("/sys-admin/course-offerings")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(editedJsonRequest))
                 .andExpect(status().isBadRequest())
@@ -179,6 +197,7 @@ public class CourseOfferingControllerTests {
         String editedJsonRequest = jsonRequest.replace("FULL_TIME", "FULLY");
 
         mockMvc.perform(post("/sys-admin/course-offerings")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(editedJsonRequest))
                 .andExpect(status().isBadRequest())
@@ -205,6 +224,7 @@ public class CourseOfferingControllerTests {
                 """;
 
         mockMvc.perform(post("/sys-admin/course-offerings")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new CourseOfferingRequest())))
                 .andExpect(status().isBadRequest())
@@ -220,6 +240,7 @@ public class CourseOfferingControllerTests {
         updateCourseOffering.setId(1);
 
         mockMvc.perform(put("/sys-admin/course-offerings/1")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(getCourseOfferingRequest())))
                 .andExpect(status().isCreated())
@@ -230,7 +251,9 @@ public class CourseOfferingControllerTests {
 
     @Test
     public void testDeleteCourseOfferingById() throws Exception {
-        mockMvc.perform(delete("/sys-admin/course-offerings/1"))
+        mockMvc.perform(delete("/sys-admin/course-offerings/1")
+                        .with(csrf())
+                )
                 .andExpect(status().isNoContent());
     }
 }

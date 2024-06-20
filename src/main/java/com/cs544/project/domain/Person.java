@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @SecondaryTable(name = "PersonAccount", pkJoinColumns = @PrimaryKeyJoinColumn(name = "id"))
+@EntityListeners(PersonListener.class)
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
