@@ -16,10 +16,17 @@ import java.util.Collection;
 public class CoursesController {
     @Autowired
     CourseService courseService;
+
     @GetMapping()
     ResponseEntity<?> getCourses(){
         Collection<Course> courses =  courseService.getCourses();
         return ResponseEntity.ok(courses);
+    }
+
+    @GetMapping("/{courseId}")
+    ResponseEntity<?> getCourseById(@PathVariable("courseId") int id) throws CustomNotFoundException {
+        Course course =  courseService.getCourseById(id);
+        return ResponseEntity.ok(course);
     }
 
     @PostMapping()
