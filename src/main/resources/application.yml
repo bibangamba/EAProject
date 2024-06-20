@@ -56,9 +56,3 @@ logging:
 app:
   queues:
     email_queue: ${EMAIL_SERVICE}
-  testing:
-    username: ${TEST_USERNAME}
-    role_sysadmin: ${TEST_ROLE_SYSADMIN}
-    role_faculty: ${TEST_ROLE_FACULTY}
-    role_staff: ${TEST_ROLE_STAFF}
-    role_student: ${TEST_ROLE_STUDENT}

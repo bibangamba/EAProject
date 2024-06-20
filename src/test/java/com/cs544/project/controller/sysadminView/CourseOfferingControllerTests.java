@@ -154,15 +154,6 @@ public class CourseOfferingControllerTests {
         CourseOfferingRequest offeringRequest = getCourseOfferingRequest();
         offeringRequest.setEndDate(earlierEndDate);
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-
-        // Get the roles
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        List<String> roles = authorities.stream()
-                .map(GrantedAuthority::getAuthority)
-                .toList();
-
         mockMvc.perform(post("/sys-admin/course-offerings")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
