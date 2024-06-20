@@ -39,7 +39,7 @@ public class EmailScheduler {
             // Suppose deadline is 7 days before startDate at 22:00
             LocalDate deadline = startDate.minusDays(7);
 
-            LocalDateTime deadlineWithTIme =  LocalDateTime.of(deadline.getYear(), deadline.getMonth(), deadline.getDayOfMonth(), 16, 38);
+            LocalDateTime deadlineWithTIme =  LocalDateTime.of(deadline.getYear(), deadline.getMonth(), deadline.getDayOfMonth(), 17, 0);
             System.out.println("StartDate :" + startDate);
             System.out.println("Deadline  :" + deadlineWithTIme.minusHours(4));
             System.out.println("Now       :" + LocalDateTime.now());
@@ -67,6 +67,7 @@ public class EmailScheduler {
         Collection<EmailUser> students = studentService.getAllStudents().stream().map(x -> new EmailUser(x.getEmailAddress(),x.getFirstName() + " " +x.getLastName())).toList();
         Email email = new Email();
         email.setEmailTo(students);
+        email.setCategory("Social");
         email.setSubject("Deadline for Registering Course: " + courseOffering.getCourse().getCourseName());
         email.setEmailFrom(new EmailUser("mailtrap@demomailtrap.com","Course Registration System"));
         email.setText("Dear Student,\n\nThe registration for your " +  courseOffering.getCourse().getCourseName() +   " is "+ hours+ " hours from now. Please, make sure you have registered for the course.\n\nThank you. \n\nRegards,\nCourse Registration System");

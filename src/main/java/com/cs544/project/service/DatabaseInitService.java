@@ -162,7 +162,7 @@ public class DatabaseInitService {
     public static CourseOffering getCourseOffering1(Course course1, Faculty faculty1) {
         CourseOffering courseOffering1 = new CourseOffering();
         courseOffering1.setCourse(course1);
-        courseOffering1.setStartDate(LocalDate.of(2024, 5, 27));
+        courseOffering1.setStartDate(LocalDate.of(2024, 6, 27));
         courseOffering1.setEndDate(LocalDate.of(2024, 6, 20));
         courseOffering1.setCapacity(50);
         courseOffering1.setCredits(3.0f);
@@ -189,7 +189,7 @@ public class DatabaseInitService {
         Student student1 = new Student();
         student1.setFirstName("John");
         student1.setLastName("Smith");
-        student1.setEmailAddress("john.smith@example.com");
+        student1.setEmailAddress("sourrab@gmail.com");
         student1.setBirthdate(LocalDate.of(2000, 10, 12));
         student1.setGenderType(GenderType.MALE);
         student1.setEntry(LocalDate.of(2020, 9, 1));
@@ -209,7 +209,7 @@ public class DatabaseInitService {
         Student student2 = new Student();
         student2.setFirstName("Jane");
         student2.setLastName("Doe");
-        student2.setEmailAddress("jane.doe@example.com");
+        student2.setEmailAddress("sourrab@gmail.com");
         student2.setBirthdate(LocalDate.of(2001, 3, 21));
         student2.setGenderType(GenderType.FEMALE);
         student2.setEntry(LocalDate.of(2021, 9, 1));
@@ -317,15 +317,15 @@ public class DatabaseInitService {
         Student student1 = getStudent1(faculty1);
         studentRepository.save(student1);
 
-        Student student2 = getStudent2(faculty2);
-        studentRepository.save(student2);
+//        Student student2 = getStudent2(faculty2);
+//        studentRepository.save(student2);
 
         // Course Registrations
         CourseRegistration courseRegistration1 = getCourseRegistration(student1, courseOffering1);
         courseRegistrationRepository.save(courseRegistration1);
 
-        CourseRegistration courseRegistration2 = getCourseRegistration(student2, courseOffering2);
-        courseRegistrationRepository.save(courseRegistration2);
+//        CourseRegistration courseRegistration2 = getCourseRegistration(student2, courseOffering2);
+//        courseRegistrationRepository.save(courseRegistration2);
 
         // Attendance Records
         attendanceRecordRepository.saveAll(
@@ -347,24 +347,24 @@ public class DatabaseInitService {
                         LocalTime.of(13, 32),
                         2)
         );
-        attendanceRecordRepository.saveAll(
-                generateAttendanceRecord(
-                        student2,
-                        location2,
-                        courseOffering2.getStartDate(),
-                        courseOffering2.getEndDate(),
-                        LocalTime.of(10, 0),
-                        0)
-        );
+//        attendanceRecordRepository.saveAll(
+//                generateAttendanceRecord(
+//                        student2,
+//                        location2,
+//                        courseOffering2.getStartDate(),
+//                        courseOffering2.getEndDate(),
+//                        LocalTime.of(10, 0),
+//                        0)
+//        );
 
-        attendanceRecordRepository.saveAll(
-                generateAttendanceRecord(
-                        student2,
-                        location2,
-                        courseOffering2.getStartDate(),
-                        courseOffering2.getEndDate(),
-                        LocalTime.of(13, 35),
-                        0)
-        );
+//        attendanceRecordRepository.saveAll(
+//                generateAttendanceRecord(
+//                        student2,
+//                        location2,
+//                        courseOffering2.getStartDate(),
+//                        courseOffering2.getEndDate(),
+//                        LocalTime.of(13, 35),
+//                        0)
+//        );
     }
 }
