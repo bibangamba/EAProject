@@ -1,4 +1,4 @@
-package com.cs544.project.controller.adminView.sysadminView;
+package com.cs544.project.controller.sysadminView;
 
 import com.cs544.project.ReusableBeansTestConfiguration;
 import com.cs544.project.adapter.CourseOfferingAdapter;
