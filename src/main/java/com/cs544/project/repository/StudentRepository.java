@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface StudentRepository extends JpaRepository<Student, Integer> {
     public Student findFirstByFirstName(String firstName);
     public Optional<Student> findByStudentID(String id);
+
+    public Student findByUsername(String username);
 }
