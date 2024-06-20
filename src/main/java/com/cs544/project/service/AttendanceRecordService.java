@@ -36,7 +36,8 @@ public class AttendanceRecordService {
 
     public ByteArrayInputStream exportAttendanceToExcel(Long courseOfferingId) throws IOException {
         List<AttendanceRecordDto> records = attendanceRecordRepository.findAttendanceRecordsByOfferingId(courseOfferingId);
-
+        System.out.println("*************");
+        System.out.println(records);
         try (Workbook workbook = new XSSFWorkbook()) {
 
             Sheet sheet = workbook.createSheet("Attendance");
